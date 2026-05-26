@@ -19,6 +19,9 @@
     --text: #1A1730;
     --text-mid: #4A4870;
     --text-light: #9896C0;
+    --amber: #FFAF4F;
+    --amber-bg: #FFF8EE;
+    --amber-border: #FFE4B0;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -106,7 +109,54 @@
   .field input:focus { border-color: var(--purple); background: white; }
   .field input::placeholder { color: var(--text-light); font-weight: 400; }
 
-  /* Upload foto */
+  /* ── UPLOAD COM DICA REMOVE.BG ── */
+  .upload-tip {
+    background: var(--amber-bg);
+    border: 1.5px solid var(--amber-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .upload-tip-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .upload-tip-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7A5000;
+    line-height: 1.5;
+  }
+  .upload-tip-text strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    color: #5A3800;
+    margin-bottom: 2px;
+  }
+  .upload-tip-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 7px;
+    background: var(--amber);
+    color: #5A3800;
+    font-family: 'Nunito', sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    padding: 5px 11px;
+    border-radius: 6px;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+    transition: background 0.15s;
+  }
+  .upload-tip-btn:hover { background: #f0a030; }
+
+  /* Upload área */
   .upload-area {
     border: 2px dashed var(--border);
     border-radius: 10px;
@@ -131,15 +181,30 @@
     display: flex; align-items: center; justify-content: center;
   }
   .upload-preview img { width: 100%; height: 100%; object-fit: cover; }
-  .upload-preview .placeholder-icon {
-    font-size: 28px; opacity: 0.4;
+  .upload-preview .placeholder-icon { font-size: 28px; opacity: 0.4; }
+  .upload-label { font-size: 12px; font-weight: 700; color: var(--text-mid); }
+  .upload-sub { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+
+  /* Badge fundo removido */
+  .photo-status {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    justify-content: center;
   }
-  .upload-label {
-    font-size: 12px; font-weight: 700; color: var(--text-mid);
+  .photo-status.show { display: flex; }
+  .photo-status.ok { color: var(--mint-dark); }
+  .photo-status.warn { color: var(--amber); }
+  .photo-status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
   }
-  .upload-sub {
-    font-size: 11px; color: var(--text-light); margin-top: 3px;
-  }
+  .photo-status.ok .photo-status-dot { background: var(--mint-dark); }
+  .photo-status.warn .photo-status-dot { background: var(--amber); }
 
   /* Botão gerar */
   .btn-generate {
@@ -199,7 +264,6 @@
     background: #f9f9fc;
   }
 
-  /* Assinatura renderizada */
   #sig-preview { display: inline-block; }
 
   /* Botão copiar */
@@ -285,13 +349,33 @@
 
       <div class="field">
         <label>Foto de perfil</label>
+
+        <!-- DICA REMOVE.BG -->
+        <div class="upload-tip">
+          <div class="upload-tip-icon">✂️</div>
+          <div class="upload-tip-text">
+            <strong>Sua foto precisa ter fundo transparente</strong>
+            A assinatura usa fundo verde, se a foto tiver fundo branco ou colorido, vai ficar estranho. Remova no Remove BG antes de fazer o upload. É grátis e leva menos de 10 segundos.
+            <a class="upload-tip-btn" href="https://www.remove.bg/pt-br" target="_blank" rel="noopener">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Abrir remove.bg
+            </a>
+          </div>
+        </div>
+
         <div class="upload-area" id="upload-area">
           <input type="file" id="photo-input" accept="image/*">
           <div class="upload-preview" id="upload-preview">
             <span class="placeholder-icon">👤</span>
           </div>
           <div class="upload-label" id="upload-label">Clique para fazer upload</div>
-          <div class="upload-sub">JPG, PNG ou WEBP · Máx 2MB</div>
+          <div class="upload-sub">PNG sem fundo · JPG · WEBP · Máx 2MB</div>
+        </div>
+
+        <!-- Status da foto -->
+        <div class="photo-status" id="photo-status">
+          <span class="photo-status-dot"></span>
+          <span id="photo-status-text"></span>
         </div>
       </div>
 
@@ -337,7 +421,6 @@
       </div>
       <div class="preview-body">
         <div id="sig-preview">
-          <!-- assinatura renderizada aqui -->
           <table cellpadding="0" cellspacing="0" border="0"
             style="font-family:'Nunito',Arial,sans-serif;background:#ffffff;max-width:620px;border:1px solid #e5e3f0;border-radius:10px;overflow:hidden;opacity:0.35;">
             <tr>
@@ -379,18 +462,26 @@
       <h4>Como instalar no Outlook</h4>
       <div class="step">
         <div class="step-num">1</div>
-        <p>Clique em <strong>"Copiar assinatura"</strong> acima.</p>
+        <p>Acesse <a href="https://www.remove.bg/pt-br" target="_blank" style="color:var(--purple);font-weight:800;">remove.bg</a>, faça upload da sua foto e baixe o PNG sem fundo.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <p><strong>Outlook Web:</strong> Configurações → Ver todas as configurações → Correio → Redigir e responder → cole no campo de assinatura.</p>
+        <p>Volte aqui, faça upload do PNG e preencha seus dados. Clique em <strong>"Atualizar preview"</strong>.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <p><strong>Outlook Desktop:</strong> Arquivo → Opções → Email → Assinaturas → Nova → cole.</p>
+        <p>Clique em <strong>"Copiar assinatura"</strong> acima.</p>
       </div>
       <div class="step">
         <div class="step-num">4</div>
+        <p><strong>Outlook Web:</strong> Configurações → Ver todas as configurações → Correio → Redigir e responder → cole no campo de assinatura.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <p><strong>Outlook Desktop:</strong> Arquivo → Opções → Email → Assinaturas → Nova → cole.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
         <p>Salve. A foto já está <strong>embutida</strong> — não depende de internet.</p>
       </div>
     </div>
@@ -400,6 +491,7 @@
 
 <script>
   let photoBase64 = null;
+  let photoIsPng  = false;
 
   // ── UPLOAD FOTO ──
   document.getElementById('photo-input').addEventListener('change', function(e) {
@@ -409,14 +501,29 @@
       alert('A foto deve ter no máximo 2MB.');
       return;
     }
+
+    photoIsPng = file.type === 'image/png' || file.name.toLowerCase().endsWith('.png');
+
     const reader = new FileReader();
     reader.onload = function(ev) {
       photoBase64 = ev.target.result;
-      // atualiza preview do upload
       const prev = document.getElementById('upload-preview');
       prev.innerHTML = `<img src="${photoBase64}" alt="foto">`;
       document.getElementById('upload-label').textContent = file.name;
       document.getElementById('upload-area').classList.add('has-photo');
+
+      // Feedback status
+      const statusEl   = document.getElementById('photo-status');
+      const statusText = document.getElementById('photo-status-text');
+      statusEl.classList.add('show');
+      if (photoIsPng) {
+        statusEl.className = 'photo-status show ok';
+        statusText.textContent = 'PNG detectado — fundo provavelmente removido ✓';
+      } else {
+        statusEl.className = 'photo-status show warn';
+        statusText.textContent = 'Recomendamos remover o fundo no remove.bg antes de usar';
+      }
+
       updatePreview();
     };
     reader.readAsDataURL(file);
@@ -434,9 +541,7 @@
       ? photoBase64
       : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHZpZXdCb3g9IjAgMCA5MCA5MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0NSIgY3k9IjM1IiByPSIxOCIgZmlsbD0icmdiYSgwLDAsMCwwLjIpIi8+PHBhdGggZD0iTTEwIDgwYzAtMTkuMzMgMTUtMzAgMzUtMzBzMzUgMTAuNjcgMzUgMzAiIGZpbGw9InJnYmEoMCwwLDAsMC4yKSIvPjwvc3ZnPg==';
 
-    const cargosHTML = cargo2
-      ? `${cargo1}<br>${cargo2}`
-      : cargo1;
+    const cargosHTML = cargo2 ? `${cargo1}<br>${cargo2}` : cargo1;
 
     const telHTML = tel ? `
       <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:2px;">
@@ -518,7 +623,6 @@
     const nome = document.getElementById('f-nome').value.trim();
     const cargo1 = document.getElementById('f-cargo1').value.trim();
     if (!nome && !cargo1) return;
-
     const html = buildSignatureHTML();
     document.getElementById('sig-preview').innerHTML = html;
     document.getElementById('status-dot').classList.add('active');
@@ -528,14 +632,11 @@
   // ── COPIAR ASSINATURA ──
   function copySignature() {
     const sigHTML = buildSignatureHTML();
-
-    // Cria elemento temporário para copiar como HTML rico
     const container = document.createElement('div');
     container.style.position = 'fixed';
     container.style.left = '-9999px';
     container.innerHTML = sigHTML;
     document.body.appendChild(container);
-
     const range = document.createRange();
     range.selectNode(container);
     const selection = window.getSelection();
@@ -544,8 +645,6 @@
     document.execCommand('copy');
     selection.removeAllRanges();
     document.body.removeChild(container);
-
-    // Feedback visual
     const btn = document.getElementById('btn-copy');
     btn.classList.add('copied');
     btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Copiado!`;
@@ -558,3 +657,5 @@
 
 </body>
 </html>
+
+
