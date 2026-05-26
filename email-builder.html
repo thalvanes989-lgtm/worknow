@@ -134,17 +134,6 @@
   .save-form input{flex:1;padding:8px 10px;border-radius:var(--radius);border:1px solid var(--surface);background:var(--bg-light);font-family:'Nunito',sans-serif;font-size:13px;color:var(--text-dark);}
   .save-form input:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px rgba(106,63,230,.1);}
 
-  /* METRIC BLOCK PREVIEW */
-  .metric-preview-grid{display:flex;gap:0;}
-  .metric-preview-item{flex:1;padding:20px 16px;text-align:center;border-right:1px solid rgba(0,0,0,.06);}
-  .metric-preview-item:last-child{border-right:none;}
-  .metric-preview-num{font-family:Arial,sans-serif;font-size:22px;font-weight:900;color:#6A3FE6;margin-bottom:4px;}
-  .metric-preview-label{font-family:Arial,sans-serif;font-size:11px;color:#9896C0;text-transform:uppercase;letter-spacing:.08em;}
-
-  /* LIST BLOCK PREVIEW */
-  .list-preview-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;}
-  .list-preview-num{width:22px;height:22px;border-radius:50%;background:#6A3FE6;color:#fff;font-family:Arial,sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-
   /* TOAST */
   .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--purple-dark);color:#fff;padding:11px 22px;border-radius:10px;font-size:13px;font-weight:700;z-index:999;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;display:flex;align-items:center;gap:8px;white-space:nowrap;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -187,7 +176,7 @@
 
 <header class="topbar">
   <div class="topbar-left">
-    <img src="https://worknow.com.br/wp-content/uploads/2021/06/worknowStore-1.png" alt="Worknow" class="topbar-logo">
+    <img src="https://worknow.com.br/wp-content/uploads/2026/05/1-4-scaled.png" alt="Worknow" class="topbar-logo">
     <div class="topbar-divider"></div>
     <span class="topbar-title">Editor de Email</span>
   </div>
@@ -313,15 +302,19 @@
 <div class="toast" id="toast"><i class="ti ti-check"></i> <span id="toast-msg"></span></div>
 
 <script>
-  const LOGO_URL = 'https://worknow.com.br/wp-content/uploads/2021/06/worknowStore-1.png';
+  // ALTERAÇÃO 1: Logo branca usada no cabeçalho do email gerado
+  const LOGO_URL = 'https://worknow.com.br/wp-content/uploads/2026/05/1-4-scaled.png';
+
   let blocks = [];
   let activeId = null;
   let currentMode = 'edit';
 
   /* ─── DEFAULTS ─────────────────────────────────────────────────── */
   const DEFAULTS = {
-    header:    { label:'Cabeçalho',           data:{ bg:'#2A1758' } },
-    hero:      { label:'Banner principal',    data:{ tag:'Worknow', title:'Novidade do mês', subtitle:'Parceiro homologado TOTVS — integração nativa no ecossistema RM, sem risco de implementação.', bg:'#6A3FE6' } },
+    // ALTERAÇÃO 2: Cores do cabeçalho reduzidas para #6A3FE6 e #3D2080 apenas
+    header:    { label:'Cabeçalho',           data:{ bg:'#6A3FE6' } },
+    // ALTERAÇÃO 3: Novo subtítulo do banner principal
+    hero:      { label:'Banner principal',    data:{ tag:'Worknow', title:'Novidade do mês', subtitle:'Parceiro homologado TOTVS, integração nativa no seu ecossistema, sem risco de implementação.', bg:'#6A3FE6' } },
     text:      { label:'Texto',               data:{ content:'Escreva o corpo do email aqui. Use linguagem direta e foque no benefício operacional para o cliente.', align:'left' } },
     highlight: { label:'Destaque de produto', data:{ badge:'WorkChat', title:'WhatsApp integrado ao TOTVS RM', desc:'Autoatendimento para alunos: 2ª via de boleto, Pix e informes de rendimento — sem digitação manual, sem retrabalho.', bg:'#F5F4FB' } },
     list:      { label:'Lista numerada',      data:{ title:'Passos para começar', items:'Acesse o portal do parceiro TOTVS\nConfigure a integração com seu ERP\nAcompanhe os logs em tempo real' } },
@@ -333,7 +326,8 @@
 
   /* ─── FIELD DEFS ────────────────────────────────────────────────── */
   const FIELD_DEFS = {
-    header:    [{ key:'bg', label:'Cor de fundo', type:'color', opts:['#2A1758','#6A3FE6','#3D2080'] }],
+    // ALTERAÇÃO 2: Apenas duas opções de cor para o cabeçalho
+    header:    [{ key:'bg', label:'Cor de fundo', type:'color', opts:['#6A3FE6','#3D2080'] }],
     hero:      [
       { key:'tag',      label:'Rótulo acima do título', type:'text' },
       { key:'title',    label:'Título principal',       type:'text' },
@@ -378,8 +372,8 @@
   /* ─── TEMPLATES ─────────────────────────────────────────────────── */
   const TEMPLATES = {
     newsletter: [
-      {type:'header',    data:{bg:'#2A1758'}},
-      {type:'hero',      data:{tag:'Newsletter · Maio 2026',title:'Novidades do ecossistema Worknow',subtitle:'Parceiro homologado TOTVS — integrações nativas para instituições de ensino.',bg:'#6A3FE6'}},
+      {type:'header',    data:{bg:'#6A3FE6'}},
+      {type:'hero',      data:{tag:'Newsletter · Maio 2026',title:'Novidades do ecossistema Worknow',subtitle:'Parceiro homologado TOTVS, integração nativa no seu ecossistema, sem risco de implementação.',bg:'#6A3FE6'}},
       {type:'text',      data:{content:'Olá,\n\nAqui estão as principais novidades deste mês. Como sempre, tudo desenvolvido e validado dentro do ecossistema TOTVS RM.',align:'left'}},
       {type:'highlight', data:{badge:'WorkChat',title:'WhatsApp integrado ao TOTVS RM',desc:'Autoatendimento para alunos: 2ª via de boleto, Pix e informes de rendimento — sem digitação manual.',bg:'#F5F4FB'}},
       {type:'metric',    data:{m1n:'200+',m1l:'Clientes ativos',m2n:'11',m2l:'Soluções',m3n:'100%',m3l:'Homologado TOTVS'}},
@@ -388,14 +382,14 @@
       {type:'footer',    data:{text:'© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.'}}
     ],
     comunicado: [
-      {type:'header', data:{bg:'#2A1758'}},
+      {type:'header', data:{bg:'#6A3FE6'}},
       {type:'hero',   data:{tag:'Comunicado',title:'Assunto do comunicado aqui',subtitle:'Informação direta para o seu time ou para os clientes.',bg:'#3D2080'}},
       {type:'text',   data:{content:'Escreva o conteúdo do comunicado aqui.\n\nMantenha a linguagem direta e o foco no impacto prático para o leitor.',align:'left'}},
       {type:'cta',    data:{text:'Saiba mais',url:'',align:'center',bg:'#6A3FE6'}},
       {type:'footer', data:{text:'© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.'}}
     ],
     produto: [
-      {type:'header',    data:{bg:'#2A1758'}},
+      {type:'header',    data:{bg:'#6A3FE6'}},
       {type:'hero',      data:{tag:'Lançamento',title:'Nova solução disponível',subtitle:'Desenvolvida e homologada para o ecossistema TOTVS RM.',bg:'#6A3FE6'}},
       {type:'highlight', data:{badge:'Novo produto',title:'Nome da solução',desc:'Descreva o benefício operacional ou financeiro direto para a instituição.',bg:'#F5F4FB'}},
       {type:'list',      data:{title:'O que você ganha',items:'Integração nativa com o TOTVS RM\nZero digitação manual — sincronização automática\nImplementação com suporte do parceiro homologado'}},
@@ -403,15 +397,15 @@
       {type:'footer',    data:{text:'© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.'}}
     ],
     evento: [
-      {type:'header', data:{bg:'#2A1758'}},
-      {type:'hero',   data:{tag:'Evento',title:'Nome do evento',subtitle:'Data · Local · Detalhes do evento aqui.',bg:'#2A1758'}},
+      {type:'header', data:{bg:'#3D2080'}},
+      {type:'hero',   data:{tag:'Evento',title:'Nome do evento',subtitle:'Data · Local · Detalhes do evento aqui.',bg:'#3D2080'}},
       {type:'text',   data:{content:'Você está convidado.\n\nDescreva o evento, o que será apresentado e por que vale a presença.',align:'left'}},
       {type:'list',   data:{title:'O que acontece no evento',items:'Demonstração ao vivo das integrações TOTVS\nCasos de uso reais de clientes Worknow\nEspaço para perguntas e networking'}},
       {type:'cta',    data:{text:'Confirmar presença',url:'',align:'center',bg:'#6A3FE6'}},
       {type:'footer', data:{text:'© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.'}}
     ],
     onboarding: [
-      {type:'header', data:{bg:'#2A1758'}},
+      {type:'header', data:{bg:'#6A3FE6'}},
       {type:'hero',   data:{tag:'Bem-vindo à Worknow',title:'Sua integração começa agora',subtitle:'Seguem os próximos passos para ativar sua solução TOTVS.',bg:'#6A3FE6'}},
       {type:'list',   data:{title:'Próximos passos',items:'Acesse o portal e confirme seus dados de acesso\nNosso time de CS entrará em contato em até 24h\nPrepare as credenciais do seu ambiente TOTVS RM\nAcompanhe o progresso pelo painel do cliente'}},
       {type:'text',   data:{content:'Qualquer dúvida durante o processo, fale direto com seu consultor. Estamos disponíveis de segunda a sexta, das 8h às 18h.',align:'left'}},
@@ -419,7 +413,7 @@
       {type:'footer', data:{text:'© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.'}}
     ],
     nps: [
-      {type:'header', data:{bg:'#2A1758'}},
+      {type:'header', data:{bg:'#3D2080'}},
       {type:'hero',   data:{tag:'Sua opinião importa',title:'Como está sua experiência com a Worknow?',subtitle:'Leva menos de 2 minutos. Sua resposta ajuda a melhorar o suporte e as integrações.',bg:'#3D2080'}},
       {type:'text',   data:{content:'Olá,\n\nGostaríamos de entender melhor como está sendo sua experiência com nossas soluções e com o suporte do nosso time.',align:'left'}},
       {type:'cta',    data:{text:'Responder pesquisa agora',url:'',align:'center',bg:'#6A3FE6'}},
@@ -580,7 +574,6 @@
         <button class="btn btn-outline btn-danger-ghost" onclick="removeBlock('${id}')"><i class="ti ti-trash"></i></button>
       </div>`;
 
-    // Switch para aba de propriedades
     switchTab('props');
   }
 
@@ -773,7 +766,6 @@ ${inner}
   }
 
   /* ─── INIT ───────────────────────────────────────────────────────── */
-  // Restaura autosave ao abrir
   try {
     const saved = localStorage.getItem(LS_AUTO);
     if(saved) {
