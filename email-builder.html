@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Worknow — Editor de Email</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  :root {
+    --purple: #6A3FE6;
+    --purple-dark: #2A1758;
+    --purple-mid: #3D2080;
+    --purple-light: #7d65ec;
+    --mint: #00E5C0;
+    --mint-dark: #00C7A6;
+    --amber: #FFAF4F;
+    --bg-light: #F5F4FB;
+    --bg-mid: #EEECf8;
+    --text-dark: #1A1730;
+    --text-mid: #4A4870;
+    --text-light: #9896C0;
+    --surface: #e6e6f5;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --border: 1px solid #e6e6f5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--purple-dark);
+    padding: 0 28px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 16px; }
+  .topbar-logo { height: 24px; }
+  .topbar-divider { width: 1px; height: 20px; background: rgba(255,255,255,.15); }
+  .topbar-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.65); }
+  .topbar-right { display: flex; gap: 8px; align-items: center; }
+
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all .15s; }
+  .btn i { font-size: 15px; }
+  .btn-ghost { background: rgba(255,255,255,.08); color: rgba(255,255,255,.8); }
+  .btn-ghost:hover { background: rgba(255,255,255,.15); color: #fff; }
+  .btn-mint { background: var(--mint); color: var(--purple-dark); }
+  .btn-mint:hover { background: var(--mint-dark); }
+  .btn-purple { background: var(--purple); color: #fff; }
+  .btn-purple:hover { background: #5932d4; }
+  .btn-outline { background: #fff; color: var(--text-dark); border: 1px solid var(--surface); }
+  .btn-outline:hover { background: var(--bg-light); }
+  .btn-danger-ghost { background: rgba(224,82,96,.1); color: #E05260; border: none; }
+  .btn-danger-ghost:hover { background: rgba(224,82,96,.2); }
+
+  /* LAYOUT */
+  .app-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr 320px;
+    min-height: calc(100vh - 56px);
+  }
+
+  /* SIDEBAR ESQUERDA — blocos */
+  .sidebar-left {
+    background: #fff;
+    border-right: var(--border);
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+  }
+
+  .sidebar-section-label {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--text-light);
+    padding: 8px 4px 4px;
+  }
+
+  .block-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--surface);
+    background: var(--bg-light);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    transition: all .15s;
+    text-align: left;
+    width: 100%;
+  }
+  .block-btn:hover { border-color: var(--purple); background: var(--bg-mid); color: var(--purple); }
+  .block-btn:hover i { color: var(--purple); }
+  .block-btn i { font-size: 17px; color: var(--text-light); flex-shrink: 0; transition: color .15s; }
+  .block-btn .block-btn-desc { font-size: 11px; font-weight: 500; color: var(--text-light); display: block; margin-top: 1px; }
+
+  .tip-box {
+    margin-top: auto;
+    background: var(--bg-light);
+    border: 1px solid var(--surface);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.65;
+  }
+  .tip-box strong { color: var(--text-dark); }
+
+  /* CANVAS */
+  .canvas-area {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .canvas-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .canvas-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-light);
+  }
+  .canvas-toolbar-right { display: flex; gap: 8px; }
+
+  .email-canvas {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    border: var(--border);
+    overflow: hidden;
+    min-height: 200px;
+    max-width: 620px;
+    margin: 0 auto;
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  }
+
+  .empty-state {
+    padding: 64px 32px;
+    text-align: center;
+    color: var(--text-light);
+  }
+  .empty-state i { font-size: 40px; opacity: .3; margin-bottom: 14px; display: block; }
+  .empty-state p { font-size: 14px; line-height: 1.6; }
+  .empty-state .empty-hint { font-size: 12px; margin-top: 8px; opacity: .7; }
+
+  .email-block { position: relative; }
+  .email-block:hover .block-overlay { opacity: 1; }
+  .block-overlay {
+    position: absolute;
+    inset: 0;
+    outline: 2px solid var(--purple);
+    outline-offset: -2px;
+    border-radius: 0;
+    opacity: 0;
+    transition: opacity .12s;
+    pointer-events: none;
+  }
+  .block-controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 4px;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity .12s;
+  }
+  .email-block:hover .block-controls { opacity: 1; }
+  .ctrl {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all .12s;
+    backdrop-filter: blur(4px);
+  }
+  .ctrl-default { background: rgba(42,23,88,.75); color: #fff; }
+  .ctrl-default:hover { background: rgba(42,23,88,.95); }
+  .ctrl-edit { background: rgba(106,63,230,.85); color: #fff; }
+  .ctrl-edit:hover { background: var(--purple); }
+  .ctrl-del { background: rgba(224,82,96,.85); color: #fff; }
+  .ctrl-del:hover { background: #E05260; }
+
+  /* SIDEBAR DIREITA — propriedades */
+  .sidebar-right {
+    background: #fff;
+    border-left: var(--border);
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .props-header {
+    padding: 16px 20px;
+    border-bottom: var(--border);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .props-header i { font-size: 16px; color: var(--purple); }
+  .props-body { padding: 16px 20px; flex: 1; }
+  .props-empty { padding: 32px 20px; text-align: center; color: var(--text-light); font-size: 13px; line-height: 1.6; }
+  .props-empty i { font-size: 28px; opacity: .3; margin-bottom: 10px; display: block; }
+
+  .field-group { margin-bottom: 16px; }
+  .field-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--text-light); display: block; margin-bottom: 6px; }
+  .field-input {
+    width: 100%;
+    padding: 9px 11px;
+    border-radius: var(--radius);
+    border: 1px solid var(--surface);
+    background: var(--bg-light);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    color: var(--text-dark);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .field-input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px rgba(106,63,230,.12); }
+  textarea.field-input { resize: vertical; min-height: 90px; line-height: 1.6; }
+  select.field-input { cursor: pointer; }
+
+  .color-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all .15s;
+    position: relative;
+  }
+  .swatch:hover { transform: scale(1.12); }
+  .swatch.active { border-color: var(--text-dark); transform: scale(1.12); }
+  .swatch.active::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,.7);
+  }
+  .color-input-hidden { display: none; }
+
+  .props-save-bar {
+    padding: 14px 20px;
+    border-top: var(--border);
+    display: flex;
+    gap: 8px;
+  }
+  .props-save-bar .btn { flex: 1; justify-content: center; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    background: var(--purple-dark);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity .25s, transform .25s;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast i { font-size: 16px; color: var(--mint); }
+
+  /* MODAL TEMPLATE */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,23,48,.55);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    border: var(--border);
+    width: 520px;
+    max-width: 100%;
+    box-shadow: 0 8px 32px rgba(42,23,88,.15);
+    overflow: hidden;
+  }
+  .modal-header {
+    background: var(--bg-light);
+    padding: 16px 20px;
+    border-bottom: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-header h2 { font-size: 15px; font-weight: 800; color: var(--text-dark); }
+  .modal-close { background: none; border: none; cursor: pointer; color: var(--text-light); font-size: 20px; line-height: 1; padding: 2px; }
+  .modal-close:hover { color: var(--text-dark); }
+  .modal-body { padding: 20px; }
+  .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .template-card {
+    border: 1px solid var(--surface);
+    border-radius: var(--radius);
+    padding: 14px;
+    cursor: pointer;
+    transition: all .15s;
+    text-align: left;
+  }
+  .template-card:hover { border-color: var(--purple); background: var(--bg-light); }
+  .template-card i { font-size: 20px; color: var(--purple); margin-bottom: 8px; display: block; }
+  .template-card strong { font-size: 13px; color: var(--text-dark); display: block; margin-bottom: 3px; }
+  .template-card span { font-size: 11px; color: var(--text-light); line-height: 1.5; }
+
+  /* OUTPUT MODAL */
+  .output-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,23,48,.55);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .output-modal.open { display: flex; }
+  .output-box {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    width: 680px;
+    max-width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(42,23,88,.15);
+    overflow: hidden;
+  }
+  .output-header {
+    background: var(--purple-dark);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .output-header h2 { font-size: 14px; font-weight: 700; color: #fff; }
+  .output-actions { display: flex; gap: 8px; }
+  .output-code {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    background: #1A1730;
+  }
+  .output-code pre {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,.7);
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .output-footer {
+    padding: 14px 20px;
+    border-top: var(--border);
+    background: var(--bg-light);
+    font-size: 12px;
+    color: var(--text-mid);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .output-footer i { color: var(--mint-dark); font-size: 16px; }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: .04em;
+  }
+  .badge-purple { background: var(--bg-mid); color: var(--purple); }
+  .badge-mint { background: rgba(0,229,192,.12); color: var(--mint-dark); }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-left">
+    <img src="https://worknow.com.br/wp-content/uploads/2025/02/worknow-logo-branca.png" alt="Worknow" class="topbar-logo">
+    <div class="topbar-divider"></div>
+    <span class="topbar-title">Editor de Email</span>
+  </div>
+  <div class="topbar-right">
+    <button class="btn btn-ghost" onclick="openTemplateModal()">
+      <i class="ti ti-layout-grid"></i> Templates
+    </button>
+    <button class="btn btn-ghost" onclick="clearAll()">
+      <i class="ti ti-trash"></i> Limpar
+    </button>
+    <button class="btn btn-mint" onclick="openOutput()">
+      <i class="ti ti-code"></i> Gerar HTML
+    </button>
+  </div>
+</header>
+
+<!-- APP -->
+<div class="app-layout">
+
+  <!-- SIDEBAR ESQUERDA -->
+  <aside class="sidebar-left">
+    <div class="sidebar-section-label">Estrutura</div>
+
+    <button class="block-btn" onclick="addBlock('header')">
+      <i class="ti ti-layout-navbar"></i>
+      <span>
+        Cabeçalho
+        <span class="block-btn-desc">Logo da Worknow</span>
+      </span>
+    </button>
+
+    <button class="block-btn" onclick="addBlock('footer')">
+      <i class="ti ti-layout-bottombar"></i>
+      <span>
+        Rodapé
+        <span class="block-btn-desc">Assinatura + descadastro</span>
+      </span>
+    </button>
+
+    <div class="sidebar-section-label" style="margin-top:8px;">Conteúdo</div>
+
+    <button class="block-btn" onclick="addBlock('hero')">
+      <i class="ti ti-star"></i>
+      <span>
+        Banner principal
+        <span class="block-btn-desc">Título + subtítulo em destaque</span>
+      </span>
+    </button>
+
+    <button class="block-btn" onclick="addBlock('text')">
+      <i class="ti ti-align-left"></i>
+      <span>
+        Texto
+        <span class="block-btn-desc">Corpo do email</span>
+      </span>
+    </button>
+
+    <button class="block-btn" onclick="addBlock('highlight')">
+      <i class="ti ti-bolt"></i>
+      <span>
+        Destaque de produto
+        <span class="block-btn-desc">Badge + título + descrição</span>
+      </span>
+    </button>
+
+    <button class="block-btn" onclick="addBlock('cta')">
+      <i class="ti ti-cursor-text"></i>
+      <span>
+        Botão CTA
+        <span class="block-btn-desc">Link de ação principal</span>
+      </span>
+    </button>
+
+    <div class="sidebar-section-label" style="margin-top:8px;">Decoração</div>
+
+    <button class="block-btn" onclick="addBlock('divider')">
+      <i class="ti ti-minus"></i>
+      <span>
+        Separador
+        <span class="block-btn-desc">Faixa divisória</span>
+      </span>
+    </button>
+
+    <div class="tip-box">
+      <strong>Como usar</strong><br>
+      Clique nos blocos para adicioná-los. Edite com ✏️, reordene com ↑ ↓ e gere o HTML no botão acima.
+    </div>
+  </aside>
+
+  <!-- CANVAS -->
+  <main class="canvas-area">
+    <div class="canvas-toolbar">
+      <span class="canvas-label">Prévia do email</span>
+      <div class="canvas-toolbar-right">
+        <span style="font-size:12px;color:var(--text-light);font-weight:600;" id="block-count">0 blocos</span>
+      </div>
+    </div>
+
+    <div class="email-canvas" id="canvas">
+      <div class="empty-state" id="empty-state">
+        <i class="ti ti-inbox"></i>
+        <p>Nenhum bloco adicionado ainda.</p>
+        <p class="empty-hint">Clique em um bloco na barra lateral ou carregue um template.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- SIDEBAR DIREITA — propriedades -->
+  <aside class="sidebar-right">
+    <div class="props-header">
+      <i class="ti ti-adjustments"></i>
+      Propriedades
+    </div>
+    <div id="props-panel">
+      <div class="props-empty">
+        <i class="ti ti-hand-click"></i>
+        Clique em ✏️ em qualquer bloco para editar suas propriedades aqui.
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- MODAL TEMPLATES -->
+<div class="modal-overlay" id="template-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Carregar template</h2>
+      <button class="modal-close" onclick="closeTemplateModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text-mid);margin-bottom:14px;line-height:1.6;">Escolha uma estrutura base. Você pode editar todos os blocos depois.</p>
+      <div class="template-grid">
+        <button class="template-card" onclick="loadTemplate('newsletter')">
+          <i class="ti ti-news"></i>
+          <strong>Newsletter mensal</strong>
+          <span>Cabeçalho · Banner · Texto · Produto em destaque · CTA · Rodapé</span>
+        </button>
+        <button class="template-card" onclick="loadTemplate('comunicado')">
+          <i class="ti ti-speakerphone"></i>
+          <strong>Comunicado</strong>
+          <span>Cabeçalho · Banner · Texto · CTA · Rodapé</span>
+        </button>
+        <button class="template-card" onclick="loadTemplate('produto')">
+          <i class="ti ti-package"></i>
+          <strong>Lançamento de produto</strong>
+          <span>Cabeçalho · Banner roxo · Destaque · CTA mint · Rodapé</span>
+        </button>
+        <button class="template-card" onclick="loadTemplate('evento')">
+          <i class="ti ti-calendar-event"></i>
+          <strong>Convite para evento</strong>
+          <span>Cabeçalho · Banner escuro · Texto · CTA · Rodapé</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL OUTPUT -->
+<div class="output-modal" id="output-modal">
+  <div class="output-box">
+    <div class="output-header">
+      <h2>HTML gerado — pronto para o Eleve CRM</h2>
+      <div class="output-actions">
+        <button class="btn btn-ghost" onclick="copyHTML()"><i class="ti ti-copy"></i> Copiar</button>
+        <button class="btn btn-ghost" onclick="closeOutput()" style="padding:8px 10px;"><i class="ti ti-x"></i></button>
+      </div>
+    </div>
+    <div class="output-code">
+      <pre id="output-pre"></pre>
+    </div>
+    <div class="output-footer">
+      <i class="ti ti-info-circle"></i>
+      Cole este código no campo HTML do Eleve CRM ao criar um novo email.
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="ti ti-check"></i> <span id="toast-msg"></span></div>
+
+<script>
+  let blocks = [];
+  let activeId = null;
+
+  const DEFAULTS = {
+    header: { label: 'Cabeçalho', data: { bg: '#2A1758' } },
+    hero: { label: 'Banner principal', data: { tag: 'Worknow', title: 'Novidade do mês', subtitle: 'Parceiro homologado TOTVS — integração nativa no ecossistema RM, sem risco de implementação.', bg: '#6A3FE6' } },
+    text: { label: 'Texto', data: { content: 'Escreva o corpo do email aqui. Use linguagem direta e foque no benefício operacional para o cliente.\n\nMencione sempre o diferencial de parceiro homologado TOTVS quando relevante.', align: 'left' } },
+    highlight: { label: 'Destaque de produto', data: { badge: 'WorkChat', title: 'WhatsApp integrado ao TOTVS RM', desc: 'Autoatendimento para alunos com sincronização em tempo real — sem digitação manual, sem retrabalho operacional.', bg: '#F5F4FB' } },
+    cta: { label: 'Botão CTA', data: { text: 'Fale com um especialista', url: 'https://worknow.com.br', align: 'center', bg: '#6A3FE6' } },
+    divider: { label: 'Separador', data: { color: '#EEECf8', height: '6' } },
+    footer: { label: 'Rodapé', data: { text: '© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.' } }
+  };
+
+  const FIELD_DEFS = {
+    header: [
+      { key: 'bg', label: 'Cor de fundo', type: 'color', opts: ['#2A1758','#6A3FE6','#3D2080','#1A1730'] }
+    ],
+    hero: [
+      { key: 'tag', label: 'Rótulo acima do título', type: 'text' },
+      { key: 'title', label: 'Título principal', type: 'text' },
+      { key: 'subtitle', label: 'Subtítulo', type: 'textarea' },
+      { key: 'bg', label: 'Cor de fundo', type: 'color', opts: ['#6A3FE6','#2A1758','#3D2080','#00C7A6'] }
+    ],
+    text: [
+      { key: 'content', label: 'Conteúdo (Enter = parágrafo)', type: 'textarea' },
+      { key: 'align', label: 'Alinhamento', type: 'select', opts: [{ v: 'left', l: 'Esquerda' }, { v: 'center', l: 'Centro' }] }
+    ],
+    highlight: [
+      { key: 'badge', label: 'Rótulo do produto', type: 'text' },
+      { key: 'title', label: 'Título', type: 'text' },
+      { key: 'desc', label: 'Descrição', type: 'textarea' },
+      { key: 'bg', label: 'Cor de fundo', type: 'color', opts: ['#F5F4FB','#EEECf8','#ffffff','#2A1758'] }
+    ],
+    cta: [
+      { key: 'text', label: 'Texto do botão', type: 'text' },
+      { key: 'url', label: 'URL de destino', type: 'text' },
+      { key: 'align', label: 'Alinhamento', type: 'select', opts: [{ v: 'center', l: 'Centro' }, { v: 'left', l: 'Esquerda' }] },
+      { key: 'bg', label: 'Cor do botão', type: 'color', opts: ['#6A3FE6','#00C7A6','#2A1758','#FFAF4F'] }
+    ],
+    divider: [
+      { key: 'color', label: 'Cor da faixa', type: 'color', opts: ['#EEECf8','#6A3FE6','#00E5C0','#2A1758'] },
+      { key: 'height', label: 'Espessura (px)', type: 'select', opts: [{ v: '4', l: '4px — linha fina' }, { v: '6', l: '6px — padrão' }, { v: '12', l: '12px — espessa' }] }
+    ],
+    footer: [
+      { key: 'text', label: 'Texto do rodapé', type: 'textarea' }
+    ]
+  };
+
+  function uid() { return '_' + Math.random().toString(36).substr(2, 7); }
+
+  function addBlock(type, customData) {
+    const def = DEFAULTS[type];
+    const block = { id: uid(), type, data: { ...(customData || def.data) } };
+    blocks.push(block);
+    renderCanvas();
+    showToast('Bloco "' + def.label + '" adicionado');
+  }
+
+  function renderCanvas() {
+    const canvas = document.getElementById('canvas');
+    document.getElementById('block-count').textContent = blocks.length + (blocks.length === 1 ? ' bloco' : ' blocos');
+
+    if (blocks.length === 0) {
+      canvas.innerHTML = '';
+      const e = document.createElement('div');
+      e.className = 'empty-state';
+      e.id = 'empty-state';
+      e.innerHTML = '<i class="ti ti-inbox"></i><p>Nenhum bloco adicionado ainda.</p><p class="empty-hint">Clique em um bloco na barra lateral ou carregue um template.</p>';
+      canvas.appendChild(e);
+      return;
+    }
+
+    canvas.innerHTML = blocks.map((b, i) => `
+      <div class="email-block" id="eb-${b.id}">
+        <div class="block-overlay"></div>
+        <div class="block-controls">
+          ${i > 0 ? `<button class="ctrl ctrl-default" onclick="moveBlock('${b.id}',-1)" title="Mover para cima"><i class="ti ti-chevron-up"></i></button>` : ''}
+          ${i < blocks.length - 1 ? `<button class="ctrl ctrl-default" onclick="moveBlock('${b.id}',1)" title="Mover para baixo"><i class="ti ti-chevron-down"></i></button>` : ''}
+          <button class="ctrl ctrl-edit" onclick="editBlock('${b.id}')" title="Editar"><i class="ti ti-pencil"></i></button>
+          <button class="ctrl ctrl-del" onclick="removeBlock('${b.id}')" title="Remover"><i class="ti ti-trash"></i></button>
+        </div>
+        ${renderPreview(b)}
+      </div>
+    `).join('');
+  }
+
+  function renderPreview(b) {
+    const d = b.data;
+    const escape = s => String(s || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    switch (b.type) {
+      case 'header':
+        return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${d.bg};"><tr><td style="padding:20px 32px;">
+          <img src="https://worknow.com.br/wp-content/uploads/2025/02/worknow-logo-branca.png" alt="Worknow" height="26" style="display:block;">
+        </td></tr></table>`;
+
+      case 'hero':
+        return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${d.bg};"><tr><td style="padding:40px 32px 36px;">
+          <p style="font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.12em;text-transform:uppercase;margin:0 0 10px;">${escape(d.tag)}</p>
+          <h1 style="font-family:Arial,sans-serif;font-size:26px;font-weight:900;color:#ffffff;margin:0 0 12px;line-height:1.2;">${escape(d.title)}</h1>
+          <p style="font-family:Arial,sans-serif;font-size:15px;color:rgba(255,255,255,.75);margin:0;line-height:1.65;">${escape(d.subtitle)}</p>
+        </td></tr></table>`;
+
+      case 'text':
+        return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;"><tr><td style="padding:28px 32px;">
+          <p style="font-family:Arial,sans-serif;font-size:15px;color:#4A4870;line-height:1.75;margin:0;text-align:${d.align};">${escape(d.content).replace(/\n/g, '<br>')}</p>
+        </td></tr></table>`;
+
+      case 'highlight':
+        return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${d.bg};"><tr><td style="padding:28px 32px;">
+          <span style="font-family:Arial,sans-serif;font-size:10px;font-weight:700;background:#EEECf8;color:#6A3FE6;padding:3px 10px;border-radius:12px;letter-spacing:.06em;">${escape(d.badge)}</span>
+          <h2 style="font-family:Arial,sans-serif;font-size:17px;font-weight:700;color:#1A1730;margin:10px 0 6px;">${escape(d.title)}</h2>
+          <p style="font-family:Arial,sans-serif;font-size:14px;color:#4A4870;line-height:1.65;margin:0;">${escape(d.desc)}</p>
+        </td></tr></table>`;
+
+      case 'cta':
+        return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;"><tr><td style="padding:24px 32px;text-align:${d.align};">
+          <a href="${d.url}" style="font-family:Arial,sans-serif;font-size:14px;font-weight:700;background:${d.bg};color:#ffffff;padding:13px 30px;border-radius:8px;text-decoration:none;display:inline-block;">${escape(d.text)}</a>
+        </td></tr></table>`;
+
+      case 'divider':
+        return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;"><tr><td style="padding:0;">
+          <div style="height:${d.height || 6}px;background:${d.color};font-size:0;line-height:0;">&nbsp;</div>
+        </td></tr></table>`;
+
+      case 'footer':
+        return `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#2A1758;"><tr><td style="padding:24px 32px;text-align:center;">
+          <p style="font-family:Arial,sans-serif;font-size:11px;color:rgba(255,255,255,.45);line-height:1.75;margin:0;">${escape(d.text).replace(/\n/g, '<br>')}</p>
+        </td></tr></table>`;
+    }
+    return '';
+  }
+
+  function moveBlock(id, dir) {
+    const i = blocks.findIndex(b => b.id === id);
+    if (i + dir < 0 || i + dir >= blocks.length) return;
+    [blocks[i], blocks[i + dir]] = [blocks[i + dir], blocks[i]];
+    renderCanvas();
+    if (activeId === id) editBlock(id);
+  }
+
+  function removeBlock(id) {
+    blocks = blocks.filter(b => b.id !== id);
+    if (activeId === id) {
+      activeId = null;
+      document.getElementById('props-panel').innerHTML = `<div class="props-empty"><i class="ti ti-hand-click"></i>Clique em ✏️ em qualquer bloco para editar suas propriedades aqui.</div>`;
+    }
+    renderCanvas();
+    showToast('Bloco removido');
+  }
+
+  function clearAll() {
+    if (blocks.length === 0) return;
+    if (confirm('Limpar todos os blocos?')) {
+      blocks = [];
+      activeId = null;
+      document.getElementById('props-panel').innerHTML = `<div class="props-empty"><i class="ti ti-hand-click"></i>Clique em ✏️ em qualquer bloco para editar suas propriedades aqui.</div>`;
+      renderCanvas();
+      showToast('Canvas limpo');
+    }
+  }
+
+  function editBlock(id) {
+    activeId = id;
+    const block = blocks.find(b => b.id === id);
+    const fields = FIELD_DEFS[block.type] || [];
+    const panel = document.getElementById('props-panel');
+
+    panel.innerHTML = `
+      <div class="props-body">
+        <div style="margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+          <span class="badge badge-purple">${DEFAULTS[block.type].label}</span>
+        </div>
+        ${fields.map(f => buildField(f, block.data[f.key] || '')).join('')}
+      </div>
+      <div class="props-save-bar">
+        <button class="btn btn-purple" onclick="saveBlock()"><i class="ti ti-check"></i> Aplicar</button>
+        <button class="btn btn-outline btn-danger-ghost" onclick="removeBlock('${id}')"><i class="ti ti-trash"></i></button>
+      </div>
+    `;
+  }
+
+  function buildField(f, val) {
+    if (f.type === 'text') return `<div class="field-group"><label class="field-label">${f.label}</label><input class="field-input" id="fp-${f.key}" type="text" value="${String(val).replace(/"/g,'&quot;')}"></div>`;
+    if (f.type === 'textarea') return `<div class="field-group"><label class="field-label">${f.label}</label><textarea class="field-input" id="fp-${f.key}">${val}</textarea></div>`;
+    if (f.type === 'select') return `<div class="field-group"><label class="field-label">${f.label}</label><select class="field-input" id="fp-${f.key}">${f.opts.map(o => `<option value="${o.v}"${val === o.v ? ' selected' : ''}>${o.l}</option>`).join('')}</select></div>`;
+    if (f.type === 'color') return `<div class="field-group"><label class="field-label">${f.label}</label>
+      <div class="color-swatches">${f.opts.map(c => `<div class="swatch${val === c ? ' active' : ''}" style="background:${c};" data-color="${c}" data-key="${f.key}" onclick="pickColor(this,'fp-${f.key}')"></div>`).join('')}</div>
+      <input type="hidden" id="fp-${f.key}" value="${val}">
+    </div>`;
+    return '';
+  }
+
+  function pickColor(el, inputId) {
+    const color = el.dataset.color;
+    const key = el.dataset.key;
+    document.getElementById(inputId).value = color;
+    document.querySelectorAll(`.swatch[data-key="${key}"]`).forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function saveBlock() {
+    if (!activeId) return;
+    const block = blocks.find(b => b.id === activeId);
+    const fields = FIELD_DEFS[block.type] || [];
+    fields.forEach(f => {
+      const el = document.getElementById('fp-' + f.key);
+      if (el) block.data[f.key] = el.value;
+    });
+    renderCanvas();
+    showToast('Bloco atualizado');
+  }
+
+  // TEMPLATES
+  function openTemplateModal() {
+    document.getElementById('template-modal').classList.add('open');
+  }
+  function closeTemplateModal() {
+    document.getElementById('template-modal').classList.remove('open');
+  }
+
+  const TEMPLATES = {
+    newsletter: [
+      { type: 'header', data: { bg: '#2A1758' } },
+      { type: 'hero', data: { tag: 'Newsletter · Maio 2026', title: 'Novidades do ecossistema Worknow', subtitle: 'Parceiro homologado TOTVS — integrações nativas para instituições de ensino.', bg: '#6A3FE6' } },
+      { type: 'text', data: { content: 'Olá,\n\nAqui estão as principais novidades deste mês. Como sempre, tudo desenvolvido e validado dentro do ecossistema TOTVS RM.', align: 'left' } },
+      { type: 'highlight', data: { badge: 'WorkChat', title: 'WhatsApp integrado ao TOTVS RM', desc: 'Autoatendimento para alunos: 2ª via de boleto, Pix e informes de rendimento — sem digitação manual, sem retrabalho.', bg: '#F5F4FB' } },
+      { type: 'divider', data: { color: '#EEECf8', height: '6' } },
+      { type: 'cta', data: { text: 'Ver todas as soluções', url: 'https://worknow.com.br', align: 'center', bg: '#6A3FE6' } },
+      { type: 'footer', data: { text: '© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.' } }
+    ],
+    comunicado: [
+      { type: 'header', data: { bg: '#2A1758' } },
+      { type: 'hero', data: { tag: 'Comunicado', title: 'Assunto do comunicado aqui', subtitle: 'Informação direta para o seu time ou para os clientes.', bg: '#3D2080' } },
+      { type: 'text', data: { content: 'Escreva o conteúdo do comunicado aqui.\n\nMantenha a linguagem direta e o foco no impacto prático para o leitor.', align: 'left' } },
+      { type: 'cta', data: { text: 'Saiba mais', url: 'https://worknow.com.br', align: 'center', bg: '#6A3FE6' } },
+      { type: 'footer', data: { text: '© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.' } }
+    ],
+    produto: [
+      { type: 'header', data: { bg: '#2A1758' } },
+      { type: 'hero', data: { tag: 'Lançamento', title: 'Nova solução disponível', subtitle: 'Desenvolvida e homologada para o ecossistema TOTVS RM.', bg: '#6A3FE6' } },
+      { type: 'highlight', data: { badge: 'Novo produto', title: 'Nome da solução', desc: 'Descreva o benefício operacional ou financeiro direto para a instituição.', bg: '#F5F4FB' } },
+      { type: 'text', data: { content: 'Todos os detalhes sobre a implementação, suporte e funcionamento estão disponíveis no link abaixo. Nossa equipe está disponível para tirar dúvidas.', align: 'left' } },
+      { type: 'cta', data: { text: 'Conhecer a solução', url: 'https://worknow.com.br', align: 'center', bg: '#00C7A6' } },
+      { type: 'footer', data: { text: '© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.' } }
+    ],
+    evento: [
+      { type: 'header', data: { bg: '#2A1758' } },
+      { type: 'hero', data: { tag: 'Evento', title: 'Nome do evento', subtitle: 'Data · Local · Detalhes do evento aqui.', bg: '#2A1758' } },
+      { type: 'text', data: { content: 'Você está convidado.\n\nDescreva o evento, o que será apresentado e por que vale a presença. Seja direto sobre o valor para o participante.', align: 'left' } },
+      { type: 'cta', data: { text: 'Confirmar presença', url: 'https://worknow.com.br', align: 'center', bg: '#6A3FE6' } },
+      { type: 'footer', data: { text: '© 2026 Worknow · Parceiro homologado TOTVS · worknow.com.br\nPara cancelar o recebimento deste email, clique aqui.' } }
+    ]
+  };
+
+  function loadTemplate(name) {
+    if (blocks.length > 0 && !confirm('Substituir o email atual pelo template?')) return;
+    blocks = TEMPLATES[name].map(b => ({ id: uid(), type: b.type, data: { ...b.data } }));
+    activeId = null;
+    document.getElementById('props-panel').innerHTML = `<div class="props-empty"><i class="ti ti-hand-click"></i>Clique em ✏️ em qualquer bloco para editar suas propriedades aqui.</div>`;
+    closeTemplateModal();
+    renderCanvas();
+    showToast('Template carregado');
+  }
+
+  // OUTPUT
+  function generateHTML() {
+    const inner = blocks.map(b => renderPreview(b)).join('\n');
+    return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Email Worknow</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f0f0;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f0f0f0;padding:24px 0;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:10px;overflow:hidden;">
+        <tr>
+          <td>
+${inner}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>`;
+  }
+
+  function openOutput() {
+    if (blocks.length === 0) { showToast('Adicione pelo menos um bloco'); return; }
+    document.getElementById('output-pre').textContent = generateHTML();
+    document.getElementById('output-modal').classList.add('open');
+  }
+
+  function closeOutput() {
+    document.getElementById('output-modal').classList.remove('open');
+  }
+
+  function copyHTML() {
+    const html = generateHTML();
+    navigator.clipboard.writeText(html).then(() => {
+      showToast('HTML copiado! Cole no Eleve CRM.');
+      closeOutput();
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = html;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('HTML copiado! Cole no Eleve CRM.');
+      closeOutput();
+    });
+  }
+
+  // TOAST
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._to);
+    t._to = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // Fechar modais clicando fora
+  document.getElementById('template-modal').addEventListener('click', function(e) { if(e.target===this) closeTemplateModal(); });
+  document.getElementById('output-modal').addEventListener('click', function(e) { if(e.target===this) closeOutput(); });
+</script>
+</body>
+</html>
