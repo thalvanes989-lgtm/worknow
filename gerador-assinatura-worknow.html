@@ -22,6 +22,8 @@
     --amber: #FFAF4F;
     --amber-bg: #FFF8EE;
     --amber-border: #FFE4B0;
+    --success-bg: #F0FDF9;
+    --success-border: #00C7A6;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +35,7 @@
     min-height: 100vh;
   }
 
-  /* ── HEADER ── */
+  /* HEADER */
   header {
     background: linear-gradient(135deg, #1A1730 0%, #2D1F6E 100%);
     padding: 20px 40px;
@@ -41,6 +43,9 @@
     align-items: center;
     gap: 16px;
     border-bottom: 2px solid var(--purple);
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
   header img { height: 32px; }
   header .divider { width: 1px; height: 28px; background: rgba(255,255,255,0.15); }
@@ -52,23 +57,25 @@
     text-transform: uppercase;
   }
 
-  /* ── LAYOUT ── */
+  /* LAYOUT */
   .container {
-    max-width: 1100px;
+    max-width: 1140px;
     margin: 0 auto;
     padding: 40px 24px;
     display: grid;
-    grid-template-columns: 380px 1fr;
+    grid-template-columns: 400px 1fr;
     gap: 32px;
     align-items: start;
   }
 
-  /* ── PAINEL FORMULÁRIO ── */
+  /* FORMULÁRIO */
   .panel {
     background: var(--white);
     border-radius: 16px;
     border: 1px solid var(--border);
     overflow: hidden;
+    position: sticky;
+    top: 84px;
   }
   .panel-header {
     background: var(--purple);
@@ -93,7 +100,8 @@
     letter-spacing: 0.6px;
     margin-bottom: 6px;
   }
-  .field input {
+  .field input,
+  .field select {
     width: 100%;
     padding: 10px 14px;
     border: 1.5px solid var(--border);
@@ -105,11 +113,30 @@
     background: var(--bg);
     outline: none;
     transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
   }
-  .field input:focus { border-color: var(--purple); background: white; }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239896C0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  .field input:focus,
+  .field select:focus { border-color: var(--purple); background: white; }
   .field input::placeholder { color: var(--text-light); font-weight: 400; }
+  .field select option { font-weight: 600; }
 
-  /* ── UPLOAD COM DICA REMOVE.BG ── */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .field-row .field { margin-bottom: 0; }
+
+  /* UPLOAD */
   .upload-tip {
     background: var(--amber-bg);
     border: 1.5px solid var(--amber-border);
@@ -120,11 +147,7 @@
     gap: 10px;
     align-items: flex-start;
   }
-  .upload-tip-icon {
-    font-size: 18px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
+  .upload-tip-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
   .upload-tip-text {
     font-size: 12px;
     font-weight: 600;
@@ -156,7 +179,6 @@
   }
   .upload-tip-btn:hover { background: #f0a030; }
 
-  /* Upload área */
   .upload-area {
     border: 2px dashed var(--border);
     border-radius: 10px;
@@ -185,26 +207,32 @@
   .upload-label { font-size: 12px; font-weight: 700; color: var(--text-mid); }
   .upload-sub { font-size: 11px; color: var(--text-light); margin-top: 3px; }
 
-  /* Badge fundo removido */
-  .photo-status {
+  /* Status upload */
+  .upload-status-bar {
     display: none;
-    align-items: center;
-    gap: 6px;
-    margin-top: 8px;
-    font-size: 11px;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 11.5px;
     font-weight: 700;
-    justify-content: center;
+    align-items: center;
+    gap: 8px;
   }
-  .photo-status.show { display: flex; }
-  .photo-status.ok { color: var(--mint-dark); }
-  .photo-status.warn { color: var(--amber); }
-  .photo-status-dot {
-    width: 7px; height: 7px;
+  .upload-status-bar.show { display: flex; }
+  .upload-status-bar.uploading { background: var(--purple-light); color: var(--purple); }
+  .upload-status-bar.success { background: var(--success-bg); color: #00875A; border: 1px solid var(--success-border); }
+  .upload-status-bar.error { background: #FFF0F0; color: #C00; border: 1px solid #FFCCCC; }
+  .upload-status-bar.warn { background: var(--amber-bg); color: #7A5000; border: 1px solid var(--amber-border); }
+
+  .spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(106,63,230,0.3);
+    border-top-color: var(--purple);
     border-radius: 50%;
+    animation: spin 0.7s linear infinite;
     flex-shrink: 0;
   }
-  .photo-status.ok .photo-status-dot { background: var(--mint-dark); }
-  .photo-status.warn .photo-status-dot { background: var(--amber); }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   /* Botão gerar */
   .btn-generate {
@@ -225,7 +253,7 @@
   .btn-generate:hover { background: var(--mint-dark); transform: translateY(-1px); }
   .btn-generate:active { transform: translateY(0); }
 
-  /* ── PAINEL PREVIEW ── */
+  /* PREVIEW */
   .preview-panel {
     display: flex;
     flex-direction: column;
@@ -262,16 +290,19 @@
   .preview-body {
     padding: 24px;
     background: #f9f9fc;
+    overflow-x: auto;
   }
-
   #sig-preview { display: inline-block; }
 
-  /* Botão copiar */
-  .btn-copy {
+  /* Botões de ação */
+  .action-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .btn-copy, .btn-download {
     width: 100%;
     padding: 14px;
-    background: var(--purple);
-    color: white;
     border: none;
     border-radius: 10px;
     font-family: 'Nunito', sans-serif;
@@ -285,10 +316,16 @@
     justify-content: center;
     gap: 8px;
   }
+  .btn-copy { background: var(--purple); color: white; }
   .btn-copy:hover { background: #5530c4; transform: translateY(-1px); }
   .btn-copy:disabled { background: var(--text-light); cursor: not-allowed; transform: none; }
   .btn-copy.copied { background: var(--mint-dark); color: var(--purple-dark); }
 
+  .btn-download { background: var(--purple-dark); color: white; }
+  .btn-download:hover { background: #2d2050; transform: translateY(-1px); }
+  .btn-download:disabled { background: var(--text-light); cursor: not-allowed; transform: none; }
+
+  /* Instruções */
   .instructions {
     background: var(--white);
     border-radius: 16px;
@@ -323,10 +360,27 @@
   }
   .step p { font-size: 12.5px; font-weight: 600; color: var(--text-mid); line-height: 1.5; }
   .step p strong { color: var(--text); }
+  .step p a { color: var(--purple); font-weight: 800; text-decoration: none; }
 
-  @media (max-width: 780px) {
+  /* Config WP */
+  .wp-config-notice {
+    background: #FFF8EE;
+    border: 1.5px solid #FFE4B0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #7A5000;
+    line-height: 1.6;
+  }
+  .wp-config-notice strong { color: #5A3800; display: block; margin-bottom: 4px; font-size: 12px; font-weight: 800; }
+
+  @media (max-width: 860px) {
     .container { grid-template-columns: 1fr; }
     header { padding: 16px 20px; }
+    .panel { position: static; }
+    .action-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -340,22 +394,21 @@
 
 <div class="container">
 
-  <!-- ── FORMULÁRIO ── -->
+  <!-- FORMULÁRIO -->
   <div class="panel">
     <div class="panel-header">
       <h2>Seus dados</h2>
     </div>
     <div class="panel-body">
 
+      <!-- FOTO -->
       <div class="field">
         <label>Foto de perfil</label>
-
-        <!-- DICA REMOVE.BG -->
         <div class="upload-tip">
           <div class="upload-tip-icon">✂️</div>
           <div class="upload-tip-text">
-            <strong>Sua foto precisa ter fundo transparente</strong>
-            A assinatura usa fundo verde, se a foto tiver fundo branco ou colorido, vai ficar estranho. Remova o fundo no Remove BG antes de fazer o upload. Leva só 10 segundos.
+            <strong>Use foto com fundo transparente</strong>
+            A assinatura usa fundo verde. Remova o fundo no Remove.bg antes de fazer upload — leva 10 segundos.
             <a class="upload-tip-btn" href="https://www.remove.bg/pt-br" target="_blank" rel="noopener">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
               Abrir remove.bg
@@ -369,34 +422,81 @@
             <span class="placeholder-icon">👤</span>
           </div>
           <div class="upload-label" id="upload-label">Clique para fazer upload</div>
-          <div class="upload-sub">PNG sem fundo · JPG · WEBP · Máx 2MB</div>
+          <div class="upload-sub">PNG sem fundo · JPG · WEBP · Máx 3MB</div>
         </div>
 
-        <!-- Status da foto -->
-        <div class="photo-status" id="photo-status">
-          <span class="photo-status-dot"></span>
-          <span id="photo-status-text"></span>
+        <div class="upload-status-bar" id="upload-status">
+          <span id="upload-status-icon"></span>
+          <span id="upload-status-text"></span>
         </div>
       </div>
 
-      <div class="field">
-        <label>Nome completo</label>
-        <input type="text" id="f-nome" placeholder="Ex: Ana Carolina Silva" oninput="updatePreview()">
+      <!-- NOME -->
+      <div class="field-row">
+        <div class="field">
+          <label>Nome</label>
+          <input type="text" id="f-nome" placeholder="Ex: Ana" oninput="updatePreview()">
+        </div>
+        <div class="field">
+          <label>Sobrenome</label>
+          <input type="text" id="f-sobrenome" placeholder="Ex: Silva" oninput="updatePreview()">
+        </div>
       </div>
 
+      <!-- CARGO -->
       <div class="field">
-        <label>Cargo principal</label>
-        <input type="text" id="f-cargo1" placeholder="Ex: Gerente de Projetos" oninput="updatePreview()">
+        <label>Cargo</label>
+        <select id="f-cargo" onchange="updatePreview()">
+          <option value="">— Selecione o cargo —</option>
+          <optgroup label="Administrativo">
+            <option value="Analista Administrativo">Analista Administrativo</option>
+            <option value="Analista de Customer Success">Analista de Customer Success</option>
+            <option value="Analista Financeiro">Analista Financeiro</option>
+            <option value="Analista de Marketing">Analista de Marketing</option>
+            <option value="Analista de RH">Analista de RH</option>
+          </optgroup>
+          <optgroup label="Comercial">
+            <option value="Analista SDR">Analista SDR</option>
+            <option value="Executivo de Soluções">Executivo de Soluções</option>
+          </optgroup>
+          <optgroup label="Técnico">
+            <option value="Analista de Integrações">Analista de Integrações</option>
+            <option value="Analista de Suporte">Analista de Suporte</option>
+            <option value="Consultor(a) Backoffice">Consultor(a) Backoffice</option>
+            <option value="Consultor(a) Educacional">Consultor(a) Educacional</option>
+            <option value="Coordenador(a) de Projetos">Coordenador(a) de Projetos</option>
+            <option value="Desenvolvedor Backend">Desenvolvedor Backend</option>
+            <option value="Desenvolvedor Frontend">Desenvolvedor Frontend</option>
+            <option value="Tech Lead">Tech Lead</option>
+            <option value="Tester Documentador">Tester Documentador</option>
+          </optgroup>
+          <optgroup label="Liderança">
+            <option value="Diretor(a)">Diretor(a)</option>
+            <option value="Gerente">Gerente</option>
+            <option value="Coordenador(a)">Coordenador(a)</option>
+          </optgroup>
+        </select>
       </div>
 
+      <!-- ÁREA -->
       <div class="field">
-        <label>Cargo secundário <span style="font-weight:400;text-transform:none;font-size:10px;">(opcional)</span></label>
-        <input type="text" id="f-cargo2" placeholder="Ex: Analista de Implementação" oninput="updatePreview()">
+        <label>Área</label>
+        <select id="f-area" onchange="updatePreview()">
+          <option value="">— Selecione a área —</option>
+          <option value="Comercial">Comercial</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Relacionamento">Relacionamento</option>
+          <option value="Administrativo">Administrativo</option>
+          <option value="Recursos Humanos">Recursos Humanos</option>
+          <option value="Tecnologia">Tecnologia</option>
+          <option value="Produtos">Produtos</option>
+        </select>
       </div>
 
+      <!-- CONTATOS -->
       <div class="field">
         <label>Telefone</label>
-        <input type="text" id="f-tel" placeholder="Ex: 31 99999-0000" oninput="updatePreview()">
+        <input type="text" id="f-tel" placeholder="Ex: (31) 99999-0000" oninput="updatePreview()">
       </div>
 
       <div class="field">
@@ -411,7 +511,7 @@
     </div>
   </div>
 
-  <!-- ── PREVIEW + AÇÕES ── -->
+  <!-- PREVIEW + AÇÕES -->
   <div class="preview-panel">
 
     <div class="preview-card">
@@ -421,10 +521,11 @@
       </div>
       <div class="preview-body">
         <div id="sig-preview">
+          <!-- placeholder -->
           <table cellpadding="0" cellspacing="0" border="0"
-            style="font-family:'Nunito',Arial,sans-serif;background:#ffffff;max-width:620px;border:1px solid #e5e3f0;border-radius:10px;overflow:hidden;opacity:0.35;">
+            style="font-family:'Nunito',Arial,sans-serif;background:#ffffff;max-width:620px;border:1px solid #e5e3f0;border-radius:10px;overflow:hidden;opacity:0.3;">
             <tr>
-              <td style="padding:20px;width:160px;min-width:160px;border-right:1px solid #e0ddf5;">
+              <td style="padding:20px;width:160px;min-width:160px;">
                 <div style="width:130px;height:16px;background:#e0ddf5;border-radius:4px;margin-bottom:14px;"></div>
                 <div style="width:100px;height:50px;background:#e0ddf5;border-radius:6px;"></div>
               </td>
@@ -434,7 +535,8 @@
                   <div style="width:90px;height:90px;border-radius:50%;background:#e0ddf5;flex-shrink:0;"></div>
                   <div>
                     <div style="width:160px;height:14px;background:#e0ddf5;border-radius:4px;margin-bottom:8px;"></div>
-                    <div style="width:100px;height:10px;background:#f0eeff;border-radius:4px;margin-bottom:12px;"></div>
+                    <div style="width:100px;height:10px;background:#f0eeff;border-radius:4px;margin-bottom:5px;"></div>
+                    <div style="width:80px;height:9px;background:#f0eeff;border-radius:4px;margin-bottom:12px;"></div>
                     <div style="width:120px;height:9px;background:#f5f5fa;border-radius:4px;margin-bottom:5px;"></div>
                     <div style="width:180px;height:9px;background:#f5f5fa;border-radius:4px;margin-bottom:5px;"></div>
                     <div style="width:100px;height:9px;background:#f5f5fa;border-radius:4px;margin-bottom:12px;"></div>
@@ -453,24 +555,30 @@
       </div>
     </div>
 
-    <button class="btn-copy" id="btn-copy" onclick="copySignature()" disabled>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="2"/></svg>
-      Copiar assinatura
-    </button>
+    <div class="action-row">
+      <button class="btn-copy" id="btn-copy" onclick="copySignature()" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="2"/></svg>
+        Copiar assinatura
+      </button>
+      <button class="btn-download" id="btn-download" onclick="downloadSignature()" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Baixar HTML
+      </button>
+    </div>
 
     <div class="instructions">
       <h4>Como instalar no Outlook</h4>
       <div class="step">
         <div class="step-num">1</div>
-        <p>Acesse <a href="https://www.remove.bg/pt-br" target="_blank" style="color:var(--purple);font-weight:800;">remove.bg</a>, faça upload da sua foto e baixe o PNG sem fundo.</p>
+        <p>Acesse <a href="https://www.remove.bg/pt-br" target="_blank">remove.bg</a>, faça upload da sua foto e baixe o PNG sem fundo.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <p>Volte aqui, faça upload do PNG e preencha seus dados. Clique em <strong>"Atualizar preview"</strong>.</p>
+        <p>Volte aqui, selecione seu cargo e área, faça upload do PNG e preencha seus dados. Clique em <strong>"Atualizar preview"</strong>.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <p>Clique em <strong>"Copiar assinatura"</strong> acima.</p>
+        <p>Clique em <strong>"Copiar assinatura"</strong> — ou baixe o HTML se preferir.</p>
       </div>
       <div class="step">
         <div class="step-num">4</div>
@@ -482,7 +590,7 @@
       </div>
       <div class="step">
         <div class="step-num">6</div>
-        <p>Salve. A foto já está <strong>embutida</strong> — não depende de internet.</p>
+        <p>Salve. A foto fica hospedada no site — chegará corretamente nos e-mails dos destinatários.</p>
       </div>
     </div>
 
@@ -490,20 +598,30 @@
 </div>
 
 <script>
-  let photoBase64 = null;
-  let photoIsPng  = false;
+  /* ── CONFIGURAÇÕES ── */
+  /* SUBSTITUA os valores abaixo com as credenciais do WordPress */
+  const WP_URL      = 'https://worknow.com.br';
+  const WP_USER     = 'USUARIO_WP_AQUI';
+  const WP_APP_PASS = 'SENHA_APLICATIVO_AQUI';
 
-  // ── UPLOAD FOTO ──
-  document.getElementById('photo-input').addEventListener('change', function(e) {
+  /* Estado global */
+  let photoUrl    = null;   /* URL pública depois do upload WP */
+  let photoBase64 = null;   /* fallback local */
+  let photoIsPng  = false;
+  let uploadDone  = false;
+
+  /* ── UPLOAD → WORDPRESS ── */
+  document.getElementById('photo-input').addEventListener('change', async function(e) {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      alert('A foto deve ter no máximo 2MB.');
+    if (file.size > 3 * 1024 * 1024) {
+      showStatus('error', '❌', 'A foto deve ter no máximo 3MB.');
       return;
     }
 
     photoIsPng = file.type === 'image/png' || file.name.toLowerCase().endsWith('.png');
 
+    /* Preview local imediato */
     const reader = new FileReader();
     reader.onload = function(ev) {
       photoBase64 = ev.target.result;
@@ -511,40 +629,96 @@
       prev.innerHTML = `<img src="${photoBase64}" alt="foto">`;
       document.getElementById('upload-label').textContent = file.name;
       document.getElementById('upload-area').classList.add('has-photo');
-
-      // Feedback status
-      const statusEl   = document.getElementById('photo-status');
-      const statusText = document.getElementById('photo-status-text');
-      statusEl.classList.add('show');
-      if (photoIsPng) {
-        statusEl.className = 'photo-status show ok';
-        statusText.textContent = 'PNG detectado — fundo provavelmente removido ✓';
-      } else {
-        statusEl.className = 'photo-status show warn';
-        statusText.textContent = 'Recomendamos remover o fundo no remove.bg antes de usar';
-      }
-
-      updatePreview();
     };
     reader.readAsDataURL(file);
+
+    /* Upload para WordPress */
+    showStatus('uploading', null, 'Enviando foto para o servidor…');
+
+    /* Verifica se credenciais estão configuradas */
+    if (WP_USER === 'USUARIO_WP_AQUI' || WP_APP_PASS === 'SENHA_APLICATIVO_AQUI') {
+      /* Credenciais não configuradas → usa base64 local */
+      photoUrl   = null;
+      uploadDone = true;
+      if (photoIsPng) {
+        showStatus('success', '✓', 'Foto carregada. Configure as credenciais WP para hospedar a imagem.');
+      } else {
+        showStatus('warn', '⚠', 'Foto carregada localmente. Recomendamos PNG sem fundo.');
+      }
+      updatePreview();
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file, file.name);
+
+      const creds    = btoa(`${WP_USER}:${WP_APP_PASS}`);
+      const response = await fetch(`${WP_URL}/wp-json/wp/v2/media`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Basic ${creds}`,
+          'Content-Disposition': `attachment; filename="${file.name}"`
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      photoUrl   = data.source_url;
+      uploadDone = true;
+
+      showStatus('success', '✓', `Foto enviada para o servidor — a assinatura chegará corretamente nos e-mails.`);
+      updatePreview();
+
+    } catch (err) {
+      /* Fallback gracioso: usa base64 */
+      photoUrl   = null;
+      uploadDone = true;
+      console.warn('Upload WP falhou, usando base64:', err);
+      showStatus('warn', '⚠', 'Não foi possível enviar para o servidor. Assinatura usará imagem local.');
+      updatePreview();
+    }
   });
 
-  // ── GERA HTML DA ASSINATURA ──
+  function showStatus(type, icon, text) {
+    const bar      = document.getElementById('upload-status');
+    const iconEl   = document.getElementById('upload-status-icon');
+    const textEl   = document.getElementById('upload-status-text');
+    bar.className  = `upload-status-bar show ${type}`;
+    textEl.textContent = text;
+    if (type === 'uploading') {
+      iconEl.innerHTML = '<span class="spinner"></span>';
+    } else {
+      iconEl.textContent = icon || '';
+    }
+  }
+
+  /* ── MONTA HTML DA ASSINATURA ── */
   function buildSignatureHTML() {
-    const nome   = document.getElementById('f-nome').value.trim()   || 'Seu Nome';
-    const cargo1 = document.getElementById('f-cargo1').value.trim() || 'Cargo';
-    const cargo2 = document.getElementById('f-cargo2').value.trim();
-    const tel    = document.getElementById('f-tel').value.trim()    || '';
-    const email  = document.getElementById('f-email').value.trim()  || '';
+    const nome      = (document.getElementById('f-nome').value.trim()      || '');
+    const sobrenome = (document.getElementById('f-sobrenome').value.trim() || '');
+    const nomeCompleto = [nome, sobrenome].filter(Boolean).join(' ') || 'Seu Nome';
 
-    const fotoSrc = photoBase64
-      ? photoBase64
-      : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHZpZXdCb3g9IjAgMCA5MCA5MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0NSIgY3k9IjM1IiByPSIxOCIgZmlsbD0icmdiYSgwLDAsMCwwLjIpIi8+PHBhdGggZD0iTTEwIDgwYzAtMTkuMzMgMTUtMzAgMzUtMzBzMzUgMTAuNjcgMzUgMzAiIGZpbGw9InJnYmEoMCwwLDAsMC4yKSIvPjwvc3ZnPg==';
+    const cargo  = document.getElementById('f-cargo').value  || 'Cargo';
+    const area   = document.getElementById('f-area').value   || '';
+    const tel    = document.getElementById('f-tel').value.trim()   || '';
+    const email  = document.getElementById('f-email').value.trim() || '';
 
-    const cargosHTML = cargo2 ? `${cargo1}<br>${cargo2}` : cargo1;
+    /* Imagem: prefere URL pública do WP, fallback base64 */
+    const fotoSrc = photoUrl
+      ? photoUrl
+      : photoBase64
+        ? photoBase64
+        : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHZpZXdCb3g9IjAgMCA5MCA5MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI0NSIgY3k9IjM1IiByPSIxOCIgZmlsbD0icmdiYSgwLDAsMCwwLjEpIi8+PHBhdGggZD0iTTEwIDgwYzAtMTkuMzMgMTUtMzAgMzUtMzBzMzUgMTAuNjcgMzUgMzAiIGZpbGw9InJnYmEoMCwwLDAsMC4xKSIvPjwvc3ZnPg==';
+
+    const cargoLabel = area ? `${cargo} · ${area}` : cargo;
 
     const telHTML = tel ? `
-      <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:2px;">
+      <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:3px;">
         <tr>
           <td style="width:16px;padding-right:5px;vertical-align:middle;line-height:0;">
             <img src="https://worknow.com.br/wp-content/uploads/2026/05/17.png" alt="" width="13" height="13" style="display:block;width:13px;height:13px;">
@@ -554,7 +728,7 @@
       </table>` : '';
 
     const emailHTML = email ? `
-      <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:2px;">
+      <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:3px;">
         <tr>
           <td style="width:16px;padding-right:5px;vertical-align:middle;line-height:0;">
             <img src="https://worknow.com.br/wp-content/uploads/2026/05/18.png" alt="" width="13" height="13" style="display:block;width:13px;height:13px;">
@@ -565,7 +739,7 @@
 
     return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:'Nunito',Arial,sans-serif;background:#ffffff;max-width:620px;border:1px solid #e5e3f0;border-radius:10px;overflow:hidden;">
   <tr>
-    <td valign="middle" style="padding:20px 20px 20px 20px;width:160px;min-width:160px;">
+    <td valign="middle" style="padding:20px;width:160px;min-width:160px;">
       <img src="https://worknow.com.br/wp-content/uploads/2026/05/1-4-scaled.png" alt="worknow" width="130" style="display:block;max-width:130px;height:auto;margin-bottom:14px;">
       <img src="https://worknow.com.br/wp-content/uploads/2026/03/Design-sem-nome-2026-03-27T103106.741.png" alt="TOTVS Business Partner" width="130" style="display:block;max-width:130px;height:auto;">
     </td>
@@ -575,12 +749,12 @@
         <tr>
           <td valign="middle" style="padding-right:18px;">
             <div style="width:90px;height:90px;border-radius:50%;background:#00E5C0;overflow:hidden;">
-              <img src="${fotoSrc}" alt="${nome}" width="90" height="90" style="display:block;width:90px;height:90px;object-fit:cover;border-radius:50%;">
+              <img src="${fotoSrc}" alt="${nomeCompleto}" width="90" height="90" style="display:block;width:90px;height:90px;object-fit:cover;border-radius:50%;">
             </div>
           </td>
           <td valign="middle">
-            <p style="margin:0 0 1px 0;font-family:'Nunito',Arial,sans-serif;font-size:16px;font-weight:800;color:#6A3FE6;line-height:1.2;">${nome}</p>
-            <p style="margin:0 0 8px 0;font-family:'Nunito',Arial,sans-serif;font-size:11.5px;font-weight:600;color:#4A4870;line-height:1.3;">${cargosHTML}</p>
+            <p style="margin:0 0 1px 0;font-family:'Nunito',Arial,sans-serif;font-size:16px;font-weight:800;color:#6A3FE6;line-height:1.2;">${nomeCompleto}</p>
+            <p style="margin:0 0 10px 0;font-family:'Nunito',Arial,sans-serif;font-size:11.5px;font-weight:600;color:#4A4870;line-height:1.4;">${cargoLabel}</p>
             ${telHTML}
             ${emailHTML}
             <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
@@ -618,25 +792,26 @@
 </table>`;
   }
 
-  // ── ATUALIZA PREVIEW ──
+  /* ── ATUALIZA PREVIEW ── */
   function updatePreview() {
     const nome = document.getElementById('f-nome').value.trim();
-    const cargo1 = document.getElementById('f-cargo1').value.trim();
-    if (!nome && !cargo1) return;
+    const cargo = document.getElementById('f-cargo').value;
+    if (!nome && !cargo) return;
     const html = buildSignatureHTML();
     document.getElementById('sig-preview').innerHTML = html;
     document.getElementById('status-dot').classList.add('active');
     document.getElementById('btn-copy').disabled = false;
+    document.getElementById('btn-download').disabled = false;
   }
 
-  // ── COPIAR ASSINATURA ──
+  /* ── COPIAR ASSINATURA ── */
   function copySignature() {
     const sigHTML = buildSignatureHTML();
     const container = document.createElement('div');
-    container.style.position = 'fixed';
-    container.style.left = '-9999px';
+    container.style.cssText = 'position:fixed;left:-9999px;top:-9999px;';
     container.innerHTML = sigHTML;
     document.body.appendChild(container);
+
     const range = document.createRange();
     range.selectNode(container);
     const selection = window.getSelection();
@@ -645,6 +820,7 @@
     document.execCommand('copy');
     selection.removeAllRanges();
     document.body.removeChild(container);
+
     const btn = document.getElementById('btn-copy');
     btn.classList.add('copied');
     btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Copiado!`;
@@ -653,9 +829,43 @@
       btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="2"/></svg> Copiar assinatura`;
     }, 3000);
   }
+
+  /* ── BAIXAR HTML ── */
+  function downloadSignature() {
+    const nome      = document.getElementById('f-nome').value.trim() || 'colaborador';
+    const sobrenome = document.getElementById('f-sobrenome').value.trim() || '';
+    const nomeArq   = `assinatura-worknow-${nome}${sobrenome ? '-' + sobrenome : ''}`.toLowerCase()
+                        .replace(/\s+/g, '-')
+                        .replace(/[^a-z0-9-]/g, '')
+                      + '.html';
+
+    const sigHTML   = buildSignatureHTML();
+    const fullHTML  = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Assinatura Worknow — ${nome} ${sobrenome}</title>
+</head>
+<body style="margin:20px;background:#f7f6fd;font-family:Arial,sans-serif;">
+${sigHTML}
+<p style="font-size:11px;color:#9896C0;margin-top:16px;">Gerado em ${new Date().toLocaleDateString('pt-BR')} — Worknow Gerador de Assinatura</p>
+</body>
+</html>`;
+
+    const blob = new Blob([fullHTML], { type: 'text/html;charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = nomeArq;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    const btn = document.getElementById('btn-download');
+    const orig = btn.innerHTML;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Baixado!`;
+    setTimeout(() => { btn.innerHTML = orig; }, 2500);
+  }
 </script>
 
 </body>
 </html>
-
-
