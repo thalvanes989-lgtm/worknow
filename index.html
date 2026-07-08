@@ -809,4 +809,1222 @@
   }
   .space-token-grid .stc:last-child,
   .space-token-grid .stc:nth-last-child(2),
-  .wn-bg .space-token-grid .
+  .wn-bg .space-token-grid .stc:nth-last-child(3) { border-bottom: none; }
+  .wn-bg .space-token-grid .stc.token { font-family: 'DM Mono', monospace; color: var(--purple); font-size: 12px; }
+  .wn-bg .space-token-grid .stc.val { color: var(--text-mid); font-family: 'DM Mono', monospace; font-size: 12px; }
+  .wn-bg .space-bar-wrap { display: flex; align-items: center; gap: 10px; }
+  .wn-bg .space-bar {
+    background: var(--purple);
+    opacity: 0.2;
+    border-radius: 3px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+  .wn-bg .space-use { font-size: 12px; color: var(--text-light); }
+
+  /* ── COLOR COPY BUTTON ────────────────────── */
+  .wn-bg .color-block { position: relative; }
+  .wn-bg .copy-btn {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.85);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s, background 0.15s;
+    letter-spacing: 0.05em;
+    z-index: 10;
+  }
+  .wn-bg .color-block:hover .copy-btn { opacity: 1; }
+  .wn-bg .copy-btn.copied {
+    background: rgba(0, 229, 192, 0.8);
+    border-color: rgba(0, 229, 192, 1);
+    color: #fff;
+    opacity: 1;
+  }
+
+  /* ── WCAG CONTRAST BADGE ──────────────────── */
+  .wn-bg .contrast-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .wn-bg .contrast-card {
+    border: 1px solid var(--surface-accent);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .wn-bg .contrast-preview {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .wn-bg .contrast-meta {
+    background: #fff;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--surface-accent);
+  }
+  .wn-bg .contrast-pair { font-size: 11px; color: var(--text-light); font-family: 'DM Mono', monospace; }
+  .wn-bg .contrast-ratio { font-size: 12px; font-weight: 700; font-family: 'DM Mono', monospace; }
+  .wn-bg .wcag-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    margin-left: 6px;
+  }
+  .wn-bg .wcag-aaa { background: rgba(0,199,166,0.15); color: var(--mint-dark); }
+  .wn-bg .wcag-aa { background: rgba(106,63,230,0.12); color: var(--purple); }
+  .wn-bg .wcag-fail { background: rgba(224,82,96,0.12); color: #C0323F; }
+
+  /* ── NAV PROGRESS ─────────────────────────── */
+  .wn-bg .nav-progress-wrap {
+    padding: 0.75rem 1.5rem 0;
+    margin-bottom: 0.25rem;
+  }
+  .wn-bg .nav-progress-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .wn-bg .nav-progress-bar-bg {
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .wn-bg .nav-progress-bar-fill {
+    height: 100%;
+    background: var(--mint);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+
+  /* ── CARD VARIANTE ESTADO ─────────────────── */
+  .wn-bg .card-demo.state-pending {
+    border-color: rgba(255,175,79,0.4);
+    background: rgba(255,175,79,0.03);
+  }
+  .wn-bg .card-demo.state-pending .card-icon { background: rgba(255,175,79,0.12); }
+  .wn-bg .card-status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .wn-bg .dot-active { background: var(--mint-dark); box-shadow: 0 0 0 2px rgba(0,199,166,0.2); }
+  .wn-bg .dot-pending { background: #FFAF4F; box-shadow: 0 0 0 2px rgba(255,175,79,0.2); }
+  .wn-bg .dot-inactive { background: var(--text-light); }
+
+  .wn-bg .card-footer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 1px solid var(--surface-accent);
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  /* ── CHECKLIST PERSISTENTE ────────────────── */
+  .wn-bg .checklist-item.checked {
+    background: rgba(0,199,166,0.06);
+    border-left: 3px solid var(--mint-dark);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .wn-bg .checklist-item.checked { padding-left: calc(1.1rem - 3px); }
+
+  .wn-bg .checklist-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+  }
+  .wn-bg .checklist-progress-text {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-light);
+  }
+  .wn-bg .checklist-progress-text strong { color: var(--purple); }
+  .wn-bg .checklist-reset {
+    font-size: 12px;
+    color: var(--text-light);
+    background: none;
+    border: 1px solid var(--surface-accent);
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .wn-bg .checklist-reset:hover { border-color: var(--text-light); color: var(--text-dark); }
+
+  @media (max-width: 1024px) {
+    .wn-bg nav { display: none; }
+    .wn-bg main { margin-left: 0; padding: 2rem 1.5rem; max-width: 100%; }
+  }
+  @media (max-width: 768px) {
+    .wn-bg .two-col, .wn-bg .three-col, .wn-bg .voice-example { grid-template-columns: 1fr; }
+    .wn-bg .surface-grid { grid-template-columns: 1fr 1fr; }
+    .wn-bg .contrast-row { grid-template-columns: 1fr; }
+    .wn-bg .space-token-grid { grid-template-columns: 110px 70px 1fr; }
+  }
+</style>
+</head>
+<body class="wn-bg">
+
+<nav>
+  <div class="nav-logo">
+   <img src="https://worknow.com.br/wp-content/uploads/2026/05/2-3.png" alt="Worknow" style="height:28px; max-width:160px; object-fit:contain;">
+  </div>
+  <div class="nav-progress-wrap">
+    <div class="nav-progress-label">
+      <span>progresso</span>
+      <span id="nav-pct">0%</span>
+    </div>
+    <div class="nav-progress-bar-bg">
+      <div class="nav-progress-bar-fill" id="nav-progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="nav-label">Introdução</div>
+  <a href="#intro">Sobre este guia</a>
+  <a href="#brand-position">Posicionamento</a>
+
+  <div class="nav-label">Identidade Visual</div>
+  <a href="#logo">Logo</a>
+  <a href="#cores">Sistema de Cores</a>
+  <a href="#tipografia">Tipografia</a>
+  <a href="#elemento-grafico">Elemento Gráfico</a>
+
+  <div class="nav-label">Aplicações</div>
+  <a href="#icones">Iconografia</a>
+  <a href="#ui">Componentes UI</a>
+  <a href="#gradientes">Gradientes</a>
+
+  <div class="nav-label">Comunicação</div>
+  <a href="#tom">Tom de Voz</a>
+  <a href="#fotografico">Estilo Visual</a>
+  <a href="#checklist">Checklist</a>
+</nav>
+
+<main>
+
+  <div class="hero-section" id="intro">
+    <span class="hero-version">Versão 2.0 - 2026</span>
+    <div class="section-tag">Brand Guide</div>
+    <h1>worknow</h1>
+    <p class="lead" style="color:rgba(255,255,255,0.85)">
+      Este documento define como a marca Worknow se apresenta ao mundo. Cores, tipografia, ícones, voz e aplicações. Tudo que qualquer colaborador ou parceiro precisa para comunicar a marca com consistência e profissionalismo.
+    </p>
+    <p style="color:rgba(255,255,255,0.5); font-size:13px; margin-bottom:0;">
+      Dúvidas sobre aplicação? Fale com o time de marketing antes de criar novos materiais.
+    </p>
+  </div>
+
+  <div class="toc-grid">
+    <a class="toc-item" href="#logo"><span class="toc-num">01</span> Logo &amp; Versões</a>
+    <a class="toc-item" href="#cores"><span class="toc-num">02</span> Sistema de Cores</a>
+    <a class="toc-item" href="#tipografia"><span class="toc-num">03</span> Tipografia</a>
+    <a class="toc-item" href="#elemento-grafico"><span class="toc-num">04</span> Elemento Gráfico</a>
+    <a class="toc-item" href="#icones"><span class="toc-num">05</span> Iconografia</a>
+    <a class="toc-item" href="#ui"><span class="toc-num">06</span> Componentes UI</a>
+    <a class="toc-item" href="#tom"><span class="toc-num">07</span> Tom de Voz</a>
+    <a class="toc-item" href="#checklist"><span class="toc-num">08</span> Checklist de Aprovação</a>
+  </div>
+
+  <section id="brand-position">
+    <div class="section-tag">Posicionamento</div>
+    <h2>Quem somos</h2>
+    <p class="lead">A Worknow é o elo entre o TOTVS e qualquer sistema que a instituição de ensino precise operar. Parceira homologada, com soluções nativas que eliminam retrabalho e integram dados de ponta a ponta.</p>
+    <div class="space-divider"></div>
+    <div class="two-col">
+      <div>
+        <h3>Personalidade da marca</h3>
+        <div class="rule">Técnica sem ser hermética</div>
+        <div class="rule">Direta, sem enrolação</div>
+        <div class="rule">Confiável como infraestrutura</div>
+        <div class="rule">Moderna, mas não fútil</div>
+      </div>
+      <div>
+        <h3>Referências de tom</h3>
+        <div class="rule">Stripe: clareza técnica</div>
+        <div class="rule">Vercel: objetividade de produto</div>
+        <div class="rule">Datadog: autoridade de dados</div>
+        <div class="rule">AWS: confiança de infraestrutura</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="logo">
+    <div class="section-tag">01 / Identidade</div>
+    <h2>Logo</h2>
+    <p>A logo Worknow é formada pela tipografia customizada "worknow" com o ícone de onda integrado à letra "w". A onda é o elemento de identidade central. Ela aparece como símbolo, padrão e decoração.</p>
+    <p><strong>A cor da logo não muda.</strong> O ajuste permitido é entre a versão colorida (roxo+mint) e a versão branca monocromática, conforme o fundo utilizado.</p>
+
+    <h3>Versões de aplicação</h3>
+
+    <div class="two-col" style="margin-bottom:0">
+      <div>
+        <div class="logo-box white">
+          <img src="https://worknow.com.br/wp-content/uploads/2026/05/1-3.png" alt="Logo Worknow fundo branco" style="max-height:52px; max-width:220px; object-fit:contain;">
+        </div>
+        <span class="logo-version-label">Fundo branco - versão colorida</span>
+      </div>
+      <div>
+        <div class="logo-box light">
+          <img src="https://worknow.com.br/wp-content/uploads/2026/05/1-3.png" alt="Logo Worknow fundo claro" style="max-height:52px; max-width:220px; object-fit:contain;">
+        </div>
+        <span class="logo-version-label">Fundo claro - versão colorida</span>
+      </div>
+    </div>
+
+    <div class="three-col" style="margin-bottom:0">
+      <div>
+        <div class="logo-box dark">
+          <img src="https://worknow.com.br/wp-content/uploads/2026/05/2-3.png" alt="Logo Worknow fundo roxo escuro" style="max-height:52px; max-width:220px; object-fit:contain;">
+        </div>
+        <span class="logo-version-label">Purple Dark - versão branca</span>
+      </div>
+      <div>
+        <div class="logo-box brand">
+          <img src="https://worknow.com.br/wp-content/uploads/2026/05/2-3.png" alt="Logo Worknow fundo roxo brand" style="max-height:52px; max-width:220px; object-fit:contain;">
+        </div>
+        <span class="logo-version-label">Purple Brand - versão branca</span>
+      </div>
+      <div>
+        <div class="logo-box mint">
+          <img src="https://worknow.com.br/wp-content/uploads/2026/05/2-3.png" alt="Logo Worknow fundo mint" style="max-height:52px; max-width:220px; object-fit:contain;">
+        </div>
+        <span class="logo-version-label">Mint - versão branca</span>
+      </div>
+    </div>
+
+    <div class="rule do" style="margin-top:0.5rem"><div class="rule-label">Regra de aplicação</div>Fundos claros (branco, BG Light): usar versão colorida. Fundos escuros ou coloridos (roxo, mint): usar sempre a versão branca.</div>
+
+    <h3>Downloads em alta resolução</h3>
+    <p style="font-size:13px; margin-bottom:1rem;">Arquivos oficiais para uso em materiais impressos, digitais e apresentações. Sempre use os arquivos originais, nunca capturas de tela ou cópias comprimidas.</p>
+
+    <div class="download-grid">
+      <a class="download-item" href="https://worknow.com.br/wp-content/uploads/2026/05/1-3.png" target="_blank" rel="noopener">
+        <div class="download-icon png">PNG</div>
+        <div class="download-meta">
+          <span class="download-name">Logo Colorida</span>
+          <span class="download-desc">PNG alta resolução - fundo claro</span>
+        </div>
+      </a>
+      <a class="download-item" href="https://worknow.com.br/wp-content/uploads/2026/05/2-4-scaled.png" target="_blank" rel="noopener">
+        <div class="download-icon png">PNG</div>
+        <div class="download-meta">
+          <span class="download-name">Logo Branca</span>
+          <span class="download-desc">PNG alta resolução - fundo escuro/colorido</span>
+        </div>
+      </a>
+      <a class="download-item" href="https://worknow.com.br/wp-content/uploads/2026/05/1.svg" target="_blank" rel="noopener">
+        <div class="download-icon svg">SVG</div>
+        <div class="download-meta">
+          <span class="download-name">Logo Colorida</span>
+          <span class="download-desc">SVG vetorial - escala infinita</span>
+        </div>
+      </a>
+      <a class="download-item" href="https://worknow.com.br/wp-content/uploads/2026/05/1-1.svg" target="_blank" rel="noopener">
+        <div class="download-icon svg">SVG</div>
+        <div class="download-meta">
+          <span class="download-name">Logo Branca</span>
+          <span class="download-desc">SVG vetorial - escala infinita</span>
+        </div>
+      </a>
+    </div>
+    <a class="download-item" href="https://worknow.com.br/wp-content/uploads/2026/05/Logo-Worknow-Versoes-_2_-_1_.pdf.pdf" target="_blank" rel="noopener" style="text-decoration:none; display:flex; align-items:center; gap:12px; background:var(--bg-light); border:1px solid var(--surface-accent); border-radius:var(--radius); padding:0.85rem 1rem; margin-bottom:0.75rem; transition:background 0.15s, border-color 0.15s;">
+      <div class="download-icon pdf">PDF</div>
+      <div class="download-meta">
+        <span class="download-name">Logo Worknow - Todas as versões</span>
+        <span class="download-desc">PDF com versão colorida e branca para impressão profissional</span>
+      </div>
+    </a>
+    <div class="rule dont" style="margin-bottom:1.75rem"><div class="rule-label">Atenção - PDF CMYK</div>O arquivo PDF está em modo CMYK para impressão profissional. As cores aparecem diferentes na tela porque monitores usam RGB. Isso é esperado. Para uso digital, use sempre os arquivos SVG ou PNG.</div>
+
+    <h3>Área de proteção</h3>
+    <p>Mantenha um espaço mínimo ao redor da logo equivalente à altura da letra "w". Nunca posicione outros elements dentro dessa zona.</p>
+
+    <h3>Usos incorretos</h3>
+    <div class="three-col">
+      <div class="logo-dont">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/1-3.png" alt="Uso incorreto — logo esticada" style="max-height:36px; max-width:140px; object-fit:contain; transform:scaleX(1.5); opacity:0.7;">
+        <p class="logo-dont-label">Não esticar ou distorcer proporções</p>
+      </div>
+      <div class="logo-dont">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/1-3.png" alt="Uso incorreto — logo rotacionada" style="max-height:36px; max-width:140px; object-fit:contain; transform:rotate(15deg); opacity:0.7;">
+        <p class="logo-dont-label">Não girar ou inclinar a logo</p>
+      </div>
+      <div class="logo-dont">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/1-3.png" alt="Uso incorreto — logo com sombra" style="max-height:36px; max-width:140px; object-fit:contain; filter:drop-shadow(3px 3px 6px rgba(0,0,0,0.5)); opacity:0.7;">
+        <p class="logo-dont-label">Não usar sombra ou efeito especial</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="cores">
+    <div class="section-tag">02 / Identidade</div>
+    <h2>Sistema de Cores</h2>
+    <p>A paleta foi construída para funcionar em interfaces digitais e materiais físicos. Duas cores primárias dominam: roxo e mint. As demais operam como suporte hierárquico.</p>
+
+    <h3>Primárias</h3>
+    <div class="two-col" style="margin-bottom:1.75rem">
+      <div class="color-block" data-hex="#6A3FE6">
+        <button class="copy-btn" aria-label="Copiar hex">copiar</button>
+        <div class="color-main" style="background:#6A3FE6">
+          <span class="hex" style="color:rgba(255,255,255,0.7)">#6A3FE6</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Purple Brand</div>
+          <div class="color-role">Cor dominante. Hero, CTAs, destaques, elementos de interface principais. Usar com presença e intenção.</div>
+          
+          <div class="color-print-specs">
+            <div class="color-print-title">Especificações de Impressão</div>
+            <div class="color-print-values">RGB: 125, 101, 236</div>
+            <div class="color-print-values">CMYK: 47 / 57 / 0 / 7</div>
+          </div>
+        </div>
+      </div>
+      <div class="color-block" data-hex="#00E5C0">
+        <button class="copy-btn" aria-label="Copiar hex">copiar</button>
+        <div class="color-main" style="background:#00E5C0">
+          <span class="hex" style="color:rgba(0,40,30,0.7)">#00E5C0</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Mint</div>
+          <div class="color-role">Acento principal. Botões primários, highlights, indicadores ativos, elementos de destaque.</div>
+          
+          <div class="color-print-specs">
+            <div class="color-print-title">Especificações de Impressão</div>
+            <div class="color-print-values">RGB: 20, 239, 202</div>
+            <div class="color-print-values">HEX Impressão: #14EFCA</div>
+            <div class="color-print-values">CMYK: 92 / 0 / 15 / 6</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Secundárias</h3>
+    <div class="three-col" style="margin-bottom:1.75rem">
+      <div class="color-block" data-hex="#2A1758">
+        <button class="copy-btn" aria-label="Copiar hex">copiar</button>
+        <div class="color-main" style="background:#2A1758">
+          <span class="hex" style="color:rgba(255,255,255,0.6)">#2A1758</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Purple Dark</div>
+          <div class="color-role">Fundos escuros, gradientes, seção de CTA final.</div>
+        </div>
+      </div>
+      <div class="color-block" data-hex="#3D2080">
+        <button class="copy-btn" aria-label="Copiar hex">copiar</button>
+        <div class="color-main" style="background:#3D2080">
+          <span class="hex" style="color:rgba(255,255,255,0.6)">#3D2080</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Purple Mid</div>
+          <div class="color-role">Texto em contexto escuro, elementos de suporte em camadas.</div>
+        </div>
+      </div>
+      <div class="color-block" data-hex="#00C7A6">
+        <button class="copy-btn" aria-label="Copiar hex">copiar</button>
+        <div class="color-main" style="background:#00C7A6">
+          <span class="hex" style="color:rgba(0,40,30,0.7)">#00C7A6</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Mint Dark</div>
+          <div class="color-role">Texto mint sobre fundo claro. Bordas com acento verde. Melhor contraste.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Auxiliares</h3>
+    <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.75rem">
+      <div class="color-chip">
+        <div class="color-dot" style="background:#371168"></div>
+        <div>
+          <div class="color-chip-label">Purple Deep</div>
+          <div class="color-chip-hex">#371168</div>
+        </div>
+      </div>
+      <div class="color-chip">
+        <div class="color-dot" style="background:#7d65ec"></div>
+        <div>
+          <div class="color-chip-label">Purple Light</div>
+          <div class="color-chip-hex">#7d65ec</div>
+        </div>
+      </div>
+      <div class="color-chip">
+        <div class="color-dot" style="background:#CB6CE6"></div>
+        <div>
+          <div class="color-chip-label">Lilac</div>
+          <div class="color-chip-hex">#CB6CE6</div>
+        </div>
+      </div>
+      <div class="color-chip">
+        <div class="color-dot" style="background:#FFAF4F"></div>
+        <div>
+          <div class="color-chip-label">Amber</div>
+          <div class="color-chip-hex">#FFAF4F</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Sistema de Superfície</h3>
+    <div class="surface-grid" style="margin-bottom:1.75rem">
+      <div class="surface-item" style="background:#fff">
+        <div class="surface-swatch" style="background:#F5F4FB"></div>
+        <div class="surface-name">BG Light</div>
+        <div class="surface-hex">#F5F4FB</div>
+        <div class="surface-use">Seções alternadas, cards</div>
+      </div>
+      <div class="surface-item" style="background:#fff">
+        <div class="surface-swatch" style="background:#EEECf8"></div>
+        <div class="surface-name">BG Mid</div>
+        <div class="surface-hex">#EEECf8</div>
+        <div class="surface-use">Tabelas, hover, containers</div>
+      </div>
+      <div class="surface-item" style="background:#fff">
+        <div class="surface-swatch" style="background:#e6e6f5"></div>
+        <div class="surface-name">Surface Accent</div>
+        <div class="surface-hex">#e6e6f5</div>
+        <div class="surface-use">Bordas sutis, divisores</div>
+      </div>
+      <div class="surface-item" style="background:#fff">
+        <div class="surface-swatch" style="background:#1A1730"></div>
+        <div class="surface-name">Text Dark</div>
+        <div class="surface-hex">#1A1730</div>
+        <div class="surface-use">Texto principal</div>
+      </div>
+      <div class="surface-item" style="background:#fff">
+        <div class="surface-swatch" style="background:#4A4870"></div>
+        <div class="surface-name">Text Mid</div>
+        <div class="surface-hex">#4A4870</div>
+        <div class="surface-use">Texto secundário</div>
+      </div>
+      <div class="surface-item" style="background:#fff">
+        <div class="surface-swatch" style="background:#9896C0"></div>
+        <div class="surface-name">Text Light</div>
+        <div class="surface-hex">#9896C0</div>
+        <div class="surface-use">Labels, metadados</div>
+      </div>
+    </div>
+
+    <h3>Hierarquia de uso</h3>
+    <div class="rule do"><div class="rule-label">Use assim</div>Purple Brand como cor dominante. Aparece em elementos de destaque e ação principal</div>
+    <div class="rule do"><div class="rule-label">Use assim</div>Mint como acento. Nunca como fundo de seção inteira, apenas em elementos de ênfase</div>
+    <div class="rule do"><div class="rule-label">Use assim</div>Purple Dark e Purple Deep para seções de fundo escuro e gradientes de profundidade</div>
+    <div class="rule dont"><div class="rule-label">Evite</div>Amber em grande quantidade. Usar apenas como contraponto de energia em detalhe</div>
+    <div class="rule dont"><div class="rule-label">Evite</div>Lilac e Purple Light como cor dominante. São cores de suporte e badges</div>
+
+    <h3>Contraste WCAG</h3>
+    <p style="font-size:13px; margin-bottom:1rem;">Pares de cor aprovados para uso em texto. AA = mínimo para corpo de texto (4.5:1). AAA = ideal para leitura prolongada (7:1).</p>
+    <div class="contrast-row">
+      <div class="contrast-card">
+        <div class="contrast-preview" style="background:#6A3FE6; color:#fff;">
+          Texto branco sobre Purple Brand
+        </div>
+        <div class="contrast-meta">
+          <span class="contrast-pair">#6A3FE6 / #FFFFFF</span>
+          <span class="contrast-ratio" style="color:var(--mint-dark);">5.68:1 <span class="wcag-badge wcag-aa">AA</span></span>
+        </div>
+      </div>
+      <div class="contrast-card">
+        <div class="contrast-preview" style="background:#2A1758; color:#fff;">
+          Texto branco sobre Purple Dark
+        </div>
+        <div class="contrast-meta">
+          <span class="contrast-pair">#2A1758 / #FFFFFF</span>
+          <span class="contrast-ratio" style="color:var(--mint-dark);">14.3:1 <span class="wcag-badge wcag-aaa">AAA</span></span>
+        </div>
+      </div>
+      <div class="contrast-card">
+        <div class="contrast-preview" style="background:#00E5C0; color:#1A1730;">
+          Texto escuro sobre Mint
+        </div>
+        <div class="contrast-meta">
+          <span class="contrast-pair">#00E5C0 / #1A1730</span>
+          <span class="contrast-ratio" style="color:var(--mint-dark);">8.59:1 <span class="wcag-badge wcag-aaa">AAA</span></span>
+        </div>
+      </div>
+      <div class="contrast-card">
+        <div class="contrast-preview" style="background:#F5F4FB; color:#6A3FE6;">
+          Purple Brand sobre BG Light
+        </div>
+        <div class="contrast-meta">
+          <span class="contrast-pair">#F5F4FB / #6A3FE6</span>
+          <span class="contrast-ratio" style="color:var(--mint-dark);">5.45:1 <span class="wcag-badge wcag-aa">AA</span></span>
+        </div>
+      </div>
+      <div class="contrast-card">
+        <div class="contrast-preview" style="background:#fff; color:#00E5C0;">
+          Mint sobre branco — evitar em texto
+        </div>
+        <div class="contrast-meta">
+          <span class="contrast-pair">#FFFFFF / #00E5C0</span>
+          <span class="contrast-ratio" style="color:#C0323F;">1.56:1 <span class="wcag-badge wcag-fail">Fail</span></span>
+        </div>
+      </div>
+      <div class="contrast-card">
+        <div class="contrast-preview" style="background:#fff; color:#00C7A6;">
+          Mint Dark sobre branco — usar em texto
+        </div>
+        <div class="contrast-meta">
+          <span class="contrast-pair">#FFFFFF / #00C7A6</span>
+          <span class="contrast-ratio" style="color:var(--purple);">3.01:1 <span class="wcag-badge wcag-aa">AA Large</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="rule dont" style="margin-bottom:0"><div class="rule-label">Importante</div>Mint (#00E5C0) sobre branco falha WCAG em qualquer tamanho. Use sempre Mint Dark (#00C7A6) para texto sobre fundos claros.</div>
+  </section>
+
+  <section id="tipografia">
+    <div class="section-tag">03 / Identidade</div>
+    <h2>Tipografia</h2>
+    <p>A família tipográfica institucional é <strong>Ample Soft</strong>, usada em todos os materiais impressos e apresentações. Para interfaces digitais e web (site, landing pages, HTML de produto), utilize <strong>Nunito</strong> (Google Fonts, open source, personalidade arredondada e moderna, pesos 400–900).</p>
+
+    <div class="type-showcase">
+      <div class="type-display" style="font-family:'Nunito',sans-serif">Nunito</div>
+      <div class="type-meta" style="margin-top:4px; margin-bottom:1.5rem">Fonte digital: site, landing pages, HTML de produto</div>
+      <div style="font-size:1.5rem; font-weight:800; font-family:'Nunito',sans-serif; color:var(--text-dark); margin-bottom:0.25rem">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+      <div style="font-size:1.5rem; font-weight:400; font-family:'Nunito',sans-serif; color:var(--text-mid); margin-bottom:0.25rem">abcdefghijklmnopqrstuvwxyz</div>
+      <div style="font-size:1.5rem; font-weight:400; font-family:'Nunito',sans-serif; color:var(--text-light)">0123456789 !@#$%&amp;*()[]</div>
+    </div>
+
+    <div class="type-showcase" style="margin-top:1rem">
+      <div class="type-display" style="font-family:'Georgia',serif; font-size:2rem">Ample Soft</div>
+      <div class="type-meta" style="margin-top:4px; margin-bottom:0.5rem">Fonte institucional: materiais impressos e apresentações (Canva/PowerPoint)</div>
+    </div>
+
+    <h3>Hierarquia tipográfica</h3>
+    <div style="background:var(--bg-light); border-radius:var(--radius-lg); padding:1.75rem 2.25rem;">
+      <div class="type-scale-row">
+        <div class="type-scale-spec">Display / H1<br>800 · 48px</div>
+        <div class="type-scale-sample" style="font-size:2rem; font-weight:800; color:var(--text-dark)">Integração nativa</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-spec">Título / H2<br>700 · 32px</div>
+        <div class="type-scale-sample" style="font-size:1.5rem; font-weight:700; color:var(--text-dark)">Como funciona</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-spec">Subtítulo / H3<br>700 · 20px</div>
+        <div class="type-scale-sample" style="font-size:1.1rem; font-weight:700; color:var(--text-dark)">WorkChat para WhatsApp</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-spec">Corpo<br>400 · 16px</div>
+        <div class="type-scale-sample" style="font-size:1rem; font-weight:400; color:var(--text-mid)">Conecta o TOTVS RM diretamente ao WhatsApp, eliminando retrabalho manual nos processos administrativos.</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-spec">Label<br>600 · 12px · caps</div>
+        <div class="type-scale-sample" style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-light)">Parceiro Homologado TOTVS</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-spec">Mono<br>DM Mono · 400</div>
+        <div class="type-scale-sample" style="font-family:'DM Mono',monospace; font-size:0.9rem; color:var(--purple)">#6A3FE6 · v2.0 · API</div>
+      </div>
+    </div>
+
+    <div class="space-divider"></div>
+
+    <div class="rule do"><div class="rule-label">Web/Digital</div>Nunito: pesos em uso: 400 (corpo), 500 (meio), 600 (sub), 700 (subtítulos), 800 (títulos), 900 (display/hero). Google Fonts, gratuita.</div>
+    <div class="rule do"><div class="rule-label">Impresso/Apresentações</div>Ample Soft: pesos Regular (textos), Medium (sub-títulos), Bold (títulos). Usar em Canva, PowerPoint e PDF.</div>
+    <div class="rule do"><div class="rule-label">Código/Dados técnicos</div>DM Mono: valores hex de cores, especificações técnicas, métricas. Nunca usar como fonte principal.</div>
+    <div class="rule dont"><div class="rule-label">Proibido</div>Não substituir Nunito por outra fonte Google sem aprovação. Não usar Inter, Roboto ou fontes do sistema.</div>
+
+    <h3>Tokens de Espaçamento</h3>
+    <p style="font-size:13px; margin-bottom:1rem;">Use sempre os tokens abaixo. Margens e paddings inventados fora desses valores criam inconsistência visual entre materiais.</p>
+    <div class="space-token-grid">
+      <div class="sth">Token</div><div class="sth">Valor</div><div class="sth">Uso</div>
+      <div class="stc token">--space-xs</div><div class="stc val">4px</div><div class="stc"><div class="space-bar-wrap"><div class="space-bar" style="width:4px"></div><span class="space-use">Gap entre ícone e label, separadores internos</span></div></div>
+      <div class="stc token">--space-sm</div><div class="stc val">8px</div><div class="stc"><div class="space-bar-wrap"><div class="space-bar" style="width:8px"></div><span class="space-use">Gap entre badges, padding de chips</span></div></div>
+      <div class="stc token">--space-md</div><div class="stc val">16px</div><div class="stc"><div class="space-bar-wrap"><div class="space-bar" style="width:16px"></div><span class="space-use">Padding interno de cards e botões</span></div></div>
+      <div class="stc token">--space-lg</div><div class="stc val">24px</div><div class="stc"><div class="space-bar-wrap"><div class="space-bar" style="width:24px"></div><span class="space-use">Padding de seções, gap entre colunas</span></div></div>
+      <div class="stc token">--space-xl</div><div class="stc val">40px</div><div class="stc"><div class="space-bar-wrap"><div class="space-bar" style="width:40px"></div><span class="space-use">Separação entre blocos de conteúdo</span></div></div>
+      <div class="stc token">--space-2xl</div><div class="stc val">64px</div><div class="stc"><div class="space-bar-wrap"><div class="space-bar" style="width:64px"></div><span class="space-use">Margem entre seções maiores</span></div></div>
+      <div class="stc token">--space-3xl</div><div class="stc val">96px</div><div class="stc"><div class="space-bar-wrap"><div class="space-bar" style="width:80px"></div><span class="space-use">Hero padding, separação de sections no site</span></div></div>
+    </div>
+  </section>
+
+  <section id="elemento-grafico">
+    <div class="section-tag">04 / Identidade</div>
+    <h2>Elemento Gráfico - A Onda</h2>
+    <p>A onda é o elemento diferenciador da Worknow. Ela vem do "w" da logo e se expande para padrões, fundos e composições. Pode aparecer como símbolo isolado, como pattern repetido ou como elemento decorativo de corte.</p>
+
+    <div class="two-col" style="margin-bottom:1.75rem">
+      <div class="pattern-box">
+        <p style="font-size:12px; color:var(--text-light); margin-bottom:1rem">Onda original - versão da marca</p>
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/onda.png" alt="Elemento gráfico onda Worknow" style="width:100%; height:auto; display:block;">
+      </div>
+      <div class="pattern-box" style="background:#2A1758">
+        <p style="font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:1rem">Onda em fundo escuro - versão branca</p>
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/onda.png" alt="Elemento gráfico onda Worknow versão branca" style="width:100%; height:auto; display:block; filter:brightness(0) invert(1);">
+      </div>
+    </div>
+
+    <h3>Regras de uso</h3>
+    <div class="rule do"><div class="rule-label">Use assim</div>A onda pode ser usada como elemento decorativo de bordas, rodapés e transições entre seções.</div>
+    <div class="rule do"><div class="rule-label">Use assim</div>Cores permitidas: branca sobre fundo escuro, roxo sobre fundo claro, mint sobre fundo escuro em destaque.</div>
+    <div class="rule dont"><div class="rule-label">Proibido</div>Não deformar, girar em ângulos irregulares ou alterar a proporção das curvas.</div>
+    <div class="rule dont"><div class="rule-label">Proibido</div>Não usar o pattern como fundo dominante. Ele é elemento de suporte, não protagonista.</div>
+
+    <div class="space-divider"></div>
+    <h3>Símbolo isolado</h3>
+    <p style="font-size:14px; margin-bottom:1.25rem">O símbolo "w" ondulado pode aparecer como favicon, ícone de app ou elemento de fundo em grande escala.</p>
+    <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap">
+      <div style="background:var(--purple); width:72px; height:72px; border-radius:14px; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:10px">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/onda.png" alt="Símbolo onda — fundo roxo" style="width:100%; height:auto; filter:brightness(0) invert(1);">
+      </div>
+      <div style="background:#fff; border:1px solid var(--surface-accent); width:72px; height:72px; border-radius:14px; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:10px">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/onda.png" alt="Símbolo onda — fundo branco" style="width:100%; height:auto;">
+      </div>
+      <div style="background:var(--mint); width:72px; height:72px; border-radius:14px; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:10px">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/onda.png" alt="Símbolo onda — fundo mint" style="width:100%; height:auto; filter:brightness(0) invert(1);">
+      </div>
+      <p style="font-size:12px; color:var(--text-light); margin:0">Aplicações do elemento gráfico em três versões de fundo, sempre em branco sobre cor.</p>
+    </div>
+  </section>
+
+  <section id="icones">
+    <div class="section-tag">05 / Aplicações</div>
+    <h2>Iconografia</h2>
+    <p>Os ícones da Worknow têm estilo outline com traços arredondados, combinando roxo (#6A3FE6) como cor principal com acento mint (#00E5C0) em detalhe. São usados em materiais de produto, apresentações e no site.</p>
+
+    <div class="icon-grid" style="margin-bottom:1.75rem">
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Verificar.png" alt="Verificar">
+        <span>Verificar</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Suporte.png" alt="Suporte">
+        <span>Suporte</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Saas.png" alt="SaaS">
+        <span>SaaS</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Relogio.png" alt="Relógio">
+        <span>Relógio</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Parceria.png" alt="Parceria">
+        <span>Parceria</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Pagamento.png" alt="Pagamento">
+        <span>Pagamento</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Livros.png" alt="Livros">
+        <span>Livros</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Inovacao.png" alt="Inovação">
+        <span>Inovação</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Grafico.png" alt="Gráfico">
+        <span>Gráfico</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/11-removebg-preview-1.png" alt="TOTVS">
+        <span>TOTVS</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Homologado.png" alt="Homologado">
+        <span>Homologado</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Ficha.png" alt="Ficha">
+        <span>Ficha</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Especialistas.png" alt="Especialistas">
+        <span>Especialistas</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Escola.png" alt="Escola">
+        <span>Escola</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Engrenagem.png" alt="Engrenagem">
+        <span>Engrenagem</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Diploma.png" alt="Diploma">
+        <span>Diploma</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Compras.png" alt="Compras">
+        <span>Compras</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Cartao.png" alt="Cartão">
+        <span>Cartão</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Calendario.png" alt="Calendário">
+        <span>Calendário</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Boleto-1.png" alt="Boleto">
+        <span>Boleto</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Atendimento-1.png" alt="Atendimento">
+        <span>Atendimento</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Material.png" alt="Material">
+        <span>Material</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Pasta.png" alt="Pasta">
+        <span>Pasta</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Sem-comunicacao.png" alt="Sem comunicação">
+        <span>Sem comunic.</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Judo.png" alt="Judô">
+        <span>Judô</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Excursao.png" alt="Excursão">
+        <span>Excursão</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/Professor.png" alt="Professor">
+        <span>Professor</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/27.png" alt="Ícone 27">
+        <span>Extra 01</span>
+      </div>
+      <div class="icon-item">
+        <img src="https://worknow.com.br/wp-content/uploads/2026/05/28.png" alt="Ícone 28">
+        <span>Extra 02</span>
+      </div>
+    </div>
+
+    <h3>Regras de uso de ícones</h3>
+    <div class="rule do"><div class="rule-label">Use assim</div>Usar sempre o conjunto oficial. Não misturar com ícones de outros sistemas (Material, Feather, etc).</div>
+    <div class="rule do"><div class="rule-label">Use assim</div>Tamanho mínimo: 24px em interfaces. 36px ou mais em apresentações e materiais impressos.</div>
+    <div class="rule dont"><div class="rule-label">Proibido</div>Não recolorizar os ícones. Eles já têm a combinação roxo+mint definida no padrão da marca.</div>
+    <div class="rule dont"><div class="rule-label">Proibido</div>Não usar ícones fora do contexto semântico correto (ex: ícone de boleto para falar de LMS).</div>
+  </section>
+
+  <section id="ui">
+    <div class="section-tag">06 / Aplicações</div>
+    <h2>Componentes de Interface</h2>
+    <p>Padrões de uso para botões, badges, cards e outros elementos recorrentes em materiais digitais, apresentações e no site.</p>
+
+    <h3>Botões</h3>
+    <div class="ui-demo">
+      <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center">
+        <span class="btn-primary">Conhecer solução</span>
+        <span class="btn-mint">Falar com especialista</span>
+        <span class="btn-outline">Ver documentação</span>
+        <span style="background:transparent; color:var(--text-mid); font-size:14px; font-weight:600; text-decoration:underline; cursor:pointer">Saiba mais &rarr;</span>
+      </div>
+    </div>
+    <div class="rule do"><div class="rule-label">Botão Mint - CTA principal</div>Fundo mint, texto Purple Dark, font-weight 800, padding 16px 32px, border-radius 16px. Usar em conversão: demo, contato, especialista.</div>
+    <div class="rule do"><div class="rule-label">Botão Ghost / Outline</div>Texto roxo ou branco semitransparente com "→". Sempre ao lado do botão mint em heroes. Nunca como único CTA.</div>
+    <div class="rule"><div class="rule-label">Botão Purple</div>Fundo Purple Brand, texto branco. Ação principal em contexto claro quando mint criaria excesso de contraste.</div>
+
+    <h3>Badges e Labels</h3>
+    <div class="ui-demo" style="padding:1.75rem 2rem;">
+      <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:flex-start; line-height:normal;">
+        <span class="badge badge-purple">Parceiro TOTVS</span>
+        <span class="badge badge-mint">Ativo</span>
+        <span class="badge badge-amber">Em implantação</span>
+        <span class="badge badge-lilac">WorkChat</span>
+        <span class="badge" style="background:var(--bg-mid); color:var(--text-mid)">LMS</span>
+      </div>
+    </div>
+
+    <h3>Cards de produto</h3>
+    <p style="font-size:13px; margin-bottom:1rem;">Três variantes de estado: ativo, em implantação e inativo. O badge e a borda lateral sinalizam o estado visualmente.</p>
+    <div class="three-col">
+      <div class="card-demo">
+        <div class="card-demo-header">
+          <div class="card-icon">
+            <img src="https://worknow.com.br/wp-content/uploads/2026/05/Atendimento-1.png" alt="">
+          </div>
+          <div>
+            <h4>WorkChat</h4>
+            <span class="badge badge-mint" style="font-size:10px; padding:2px 8px">WhatsApp + TOTVS</span>
+          </div>
+        </div>
+        <p>Autoatendimento para alunos direto no WhatsApp. 2a via de boleto, Pix, informes e jornadas personalizadas, sem sistema paralelo.</p>
+        <div class="card-footer">
+          <span class="card-status-dot dot-active"></span>
+          Ativo
+        </div>
+      </div>
+      <div class="card-demo state-pending">
+        <div class="card-demo-header">
+          <div class="card-icon">
+            <img src="https://worknow.com.br/wp-content/uploads/2026/05/Livros.png" alt="">
+          </div>
+          <div>
+            <h4>Integração LMS</h4>
+            <span class="badge badge-amber" style="font-size:10px; padding:2px 8px">Em implantação</span>
+          </div>
+        </div>
+        <p>Sincroniza usuários, matrículas, notas e estrutura curricular automaticamente entre o TOTVS e qualquer plataforma de aprendizagem.</p>
+        <div class="card-footer" style="border-color:rgba(255,175,79,0.25);">
+          <span class="card-status-dot dot-pending"></span>
+          Em implantação
+        </div>
+      </div>
+      <div class="card-demo" style="opacity:0.6;">
+        <div class="card-demo-header">
+          <div class="card-icon" style="opacity:0.7;">
+            <img src="https://worknow.com.br/wp-content/uploads/2026/05/Engrenagem.png" alt="">
+          </div>
+          <div>
+            <h4>AD / SharePoint</h4>
+            <span class="badge" style="background:var(--bg-mid); color:var(--text-light); font-size:10px; padding:2px 8px;">Nao contratado</span>
+          </div>
+        </div>
+        <p>Espelha usuários do TOTVS RM no Active Directory. Ativa e desativa acessos dinamicamente conforme status no ERP.</p>
+        <div class="card-footer">
+          <span class="card-status-dot dot-inactive"></span>
+          Nao contratado
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gradientes">
+    <div class="section-tag">06B / Aplicações</div>
+    <h2>Gradientes Aprovados</h2>
+    <p>Os gradientes são usados em heroes, banners e seções de destaque. Sempre de escuro para roxo, nunca do roxo para claro.</p>
+
+    <div class="gradient-row" style="margin-bottom:1.25rem">
+      <div class="gradient-chip" style="background:linear-gradient(135deg,#2A1758,#6A3FE6)">
+        <span>Dark &rarr; Brand</span>
+      </div>
+      <div class="gradient-chip" style="background:linear-gradient(135deg,#371168,#3D2080)">
+        <span>Deep &rarr; Mid</span>
+      </div>
+      <div class="gradient-chip" style="background:linear-gradient(135deg,#2A1758,#7D65EC)">
+        <span>Dark &rarr; Light</span>
+      </div>
+      <div class="gradient-chip" style="background:linear-gradient(135deg,#3D2080,#CB6CE6)">
+        <span>Mid &rarr; Lilac</span>
+      </div>
+    </div>
+
+    <div class="rule dont"><div class="rule-label">Proibido</div>Não usar gradiente roxo→branco nem roxo→mint. O sistema de gradientes é sempre dentro da família roxa.</div>
+    <div class="rule do"><div class="rule-label">Use assim</div>Mint pode aparecer como elemento pontual sobre gradiente escuro. Nunca como parte do gradiente em si.</div>
+  </section>
+
+  <section id="tom">
+    <div class="section-tag">07 / Comunicação</div>
+    <h2>Tom de Voz</h2>
+    <p>A Worknow fala com gestores de TI e Financeiro. Eles valorizam precisão técnica, clareza e respeito pelo seu tempo. A comunicação é direta, orientada a resultado e evita efeitos retóricos.</p>
+
+    <div class="space-divider"></div>
+
+    <h3>Princípios</h3>
+    <div class="rule do"><div class="rule-label">Direto</div>Vai ao ponto. Sem introdução longa, sem frase de efeito antes da informação.</div>
+    <div class="rule do"><div class="rule-label">Técnico sem jargão</div>Usa termos do universo TOTVS/ERP com naturalidade, mas traduz o benefício operacional ou financeiro.</div>
+    <div class="rule do"><div class="rule-label">Concreto</div>Prefere dados, casos e especificações a generalizações ("elimina retrabalho" &gt; "aumenta a eficiência").</div>
+    <div class="rule dont"><div class="rule-label">Evitar</div>Construção "Não é X, é Y": clichê de copy IA. Substituir por afirmação direta.</div>
+    <div class="rule dont"><div class="rule-label">Evitar</div>Superlativos sem evidência: "a melhor", "a mais completa", "revolucionário".</div>
+    <div class="rule dont"><div class="rule-label">Evitar</div>Exclamações e emojis em comunicação B2B e materiais institucionais.</div>
+
+    <div class="space-divider"></div>
+
+    <h3>Exemplos de copy</h3>
+    <div class="voice-example">
+      <div class="voice-box wrong">
+        <span class="voice-tag wrong">Não usar</span>
+        Nossa solução revolucionária vai transformar completamente a gestão da sua instituição! Deixe para trás os processos manuais e entre na era da transformação digital!
+      </div>
+      <div class="voice-box right">
+        <span class="voice-tag right">Usar assim</span>
+        Integração nativa com o TOTVS RM. Sem planilhas intermediárias, sem digitação manual, sem sistemas paralelos.
+      </div>
+    </div>
+    <div class="voice-example">
+      <div class="voice-box wrong">
+        <span class="voice-tag wrong">Não usar</span>
+        Não é apenas uma integração, é uma parceria estratégica que coloca a sua instituição no futuro da educação conectada.
+      </div>
+      <div class="voice-box right">
+        <span class="voice-tag right">Usar assim</span>
+        Parceiro homologado TOTVS. As integrações são desenvolvidas e validadas diretamente no ecossistema RM, sem risco de implementação.
+      </div>
+    </div>
+
+    <h3>Palavras-chave da marca</h3>
+    <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:0.5rem; background:var(--bg-light); padding:1.5rem 1.75rem; border-radius:var(--radius-lg); align-items:flex-start; line-height:normal;">
+      <span class="badge badge-purple">Integração nativa</span>
+      <span class="badge badge-purple">Parceiro homologado TOTVS</span>
+      <span class="badge badge-purple">Sem retrabalho</span>
+      <span class="badge badge-purple">Sem digitação manual</span>
+      <span class="badge badge-purple">Ecossistema RM</span>
+      <span class="badge badge-mint">Automatização</span>
+      <span class="badge badge-mint">Sincronização em tempo real</span>
+      <span class="badge badge-mint">Gestão unificada</span>
+    </div>
+  </section>
+
+  <section id="fotografico">
+    <div class="section-tag">Comunicação</div>
+    <h2>Estilo Visual e Fotográfico</h2>
+    <p><strong>Prioridade: prints de tela e interfaces.</strong> A Worknow vende integração de sistemas. Mostrar a interface funcionando é mais persuasivo do que qualquer foto genérica.</p>
+
+    <div class="two-col" style="margin-bottom:1.75rem">
+      <div>
+        <h3>Imagens preferenciais</h3>
+        <div class="rule do"><div class="rule-label">Use assim</div>Screenshots de dashboards, logs e interfaces TOTVS + produto Worknow</div>
+        <div class="rule do"><div class="rule-label">Use assim</div>Mockups de tela mostrando o fluxo integrado em funcionamento</div>
+        <div class="rule do"><div class="rule-label">Use assim</div>Quando usar pessoas: profissionais em ambiente de trabalho com tecnologia visível</div>
+        <div class="rule do"><div class="rule-label">Use assim</div>Imagens tratadas com a paleta da marca como referência de cor</div>
+      </div>
+      <div>
+        <h3>Imagens a evitar</h3>
+        <div class="rule dont"><div class="rule-label">Evite</div>Fotos de banco com pessoas sorridentes sem contexto tecnológico</div>
+        <div class="rule dont"><div class="rule-label">Evite</div>Imagens genéricas de "tecnologia" (ícones flutuantes, fios de luz, globo 3D)</div>
+        <div class="rule dont"><div class="rule-label">Evite</div>Imagens sem relação com o universo de ERP, integração ou gestão educacional</div>
+        <div class="rule dont"><div class="rule-label">Evite</div>Fotos com marca d'água ou de baixa resolução</div>
+      </div>
+    </div>
+
+    <div class="rule" style="border-left-color:var(--purple)">
+      <div class="rule-label">Tratamento de imagem</div>
+      Todas as imagens usadas em materiais de comunicação devem ser tratadas usando a paleta da marca como referência. Enviar o arquivo original junto com a solicitação de tratamento para o time de design.
+    </div>
+  </section>
+
+  <section id="checklist">
+    <div class="section-tag">08 / Qualidade</div>
+    <h2>Checklist de Aprovação</h2>
+    <p>Antes de publicar ou distribuir qualquer material com a marca Worknow, verifique todos os itens abaixo. Itens marcados com <strong style="color:var(--purple)">&#9733;</strong> são obrigatórios.</p>
+
+    <div class="checklist-controls">
+      <span class="checklist-progress-text">
+        <strong id="cl-done">0</strong> de <strong id="cl-total">9</strong> itens verificados
+      </span>
+      <button class="checklist-reset" id="cl-reset">Limpar tudo</button>
+    </div>
+
+    <div style="margin-top:0" id="checklist-wrap">
+      <label class="checklist-item">
+        <input type="checkbox" data-key="cl-1">
+        <span class="checklist-star">&#9733;</span>
+        A logo está na versão correta para o fundo utilizado (light / dark / mint)
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" data-key="cl-2">
+        <span class="checklist-star">&#9733;</span>
+        As cores usadas pertencem ao sistema de cores oficial (nenhuma cor "perto" do roxo inventada)
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" data-key="cl-3">
+        <span class="checklist-star">&#9733;</span>
+        A tipografia usada é Ample Soft (impresso) ou Nunito (digital/web)
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" data-key="cl-4">
+        <span class="checklist-star">&#9733;</span>
+        A logo tem área de proteção respeitada (nenhum elemento invade o espaço mínimo)
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" data-key="cl-5">
+        <span class="checklist-star">&#9733;</span>
+        O copy não usa construção "Não é X, é Y" nem superlativos sem evidência
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" data-key="cl-6">
+        <span class="checklist-star">&#9733;</span>
+        "TOTVS" é mencionado explicitamente quando o contexto envolve integração
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" data-key="cl-7">
+        <span style="width:16px; flex-shrink:0"></span>
+        Os ícones usados pertencem ao conjunto oficial da Worknow
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" data-key="cl-8">
+        <span style="width:16px; flex-shrink:0"></span>
+        As imagens usadas são screenshots de produto, mockups ou fotos tratadas com a paleta da marca
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" data-key="cl-9">
+        <span style="width:16px; flex-shrink:0"></span>
+        O material foi revisado pelo responsável de marketing antes de ir ao ar
+      </label>
+    </div>
+
+    <div class="cta-block">
+      <span class="cta-block-label">Dúvidas sobre aplicação</span>
+      <p>Entre em contato com o time de marketing antes de criar novos materiais ou adaptar a identidade visual. Consistência é o ativo mais valioso de uma marca.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ── 1. NAV ACTIVE + PROGRESS BAR ──────────────────────────────
+  const sections   = document.querySelectorAll('section[id], div[id]');
+  const navLinks   = document.querySelectorAll('nav a');
+  const fillBar    = document.getElementById('nav-progress-fill');
+  const pctLabel   = document.getElementById('nav-pct');
+
+  function updateProgress() {
+    const scrollTop  = window.scrollY;
+    const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+    const pct        = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+    if (fillBar)  fillBar.style.width  = pct + '%';
+    if (pctLabel) pctLabel.textContent = pct + '%';
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const link = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ── 2. COPY HEX (CORRIGIDO) ───────────────────────────────────────────────
+  document.querySelectorAll('.color-block[data-hex]').forEach(block => {
+    const btn = block.querySelector('.copy-btn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const hex = block.dataset.hex;
+      
+      // Fallback robusto se a API navigator.clipboard não estiver disponível/bloqueada
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(hex).then(() => {
+          showSuccess(btn);
+        }).catch(() => {
+          fallbackCopyText(hex, btn);
+        });
+      } else {
+        fallbackCopyText(hex, btn);
+      }
+    });
+  });
+
+  function showSuccess(btn) {
+    btn.textContent = 'copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'copiar';
+      btn.classList.remove('copied');
+    }, 1800);
+  }
+
+  function fallbackCopyText(text, btn) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";  // Evita rolagem da tela
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      showSuccess(btn);
+    } catch (err) {
+      btn.textContent = 'erro';
+      setTimeout(() => { btn.textContent = 'copiar'; }, 1500);
+    }
+    document.body.removeChild(textArea);
+  }
+
+  // ── 3. CHECKLIST PERSISTENTE (localStorage) ───────────────────
+  const CL_PREFIX = 'wn_bg_';
+  const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+  const clDone     = document.getElementById('cl-done');
+  const clTotal    = document.getElementById('cl-total');
+  const clReset    = document.getElementById('cl-reset');
+
+  function updateClCounter() {
+    const done = document.querySelectorAll('.checklist-item input:checked').length;
+    if (clDone)  clDone.textContent  = done;
+    if (clTotal) clTotal.textContent = checkboxes.length;
+  }
+
+  function syncLabel(cb) {
+    const label = cb.closest('.checklist-item');
+    if (!label) return;
+    if (cb.checked) {
+      label.classList.add('checked');
+    } else {
+      label.classList.remove('checked');
+    }
+  }
+
+  // Load saved state
+  checkboxes.forEach(cb => {
+    const key = CL_PREFIX + cb.dataset.key;
+    if (localStorage.getItem(key) === '1') {
+      cb.checked = true;
+      syncLabel(cb);
+    }
+    cb.addEventListener('change', () => {
+      localStorage.setItem(key, cb.checked ? '1' : '0');
+      syncLabel(cb);
+      updateClCounter();
+    });
+  });
+
+  // Reset button
+  if (clReset) {
+    clReset.addEventListener('click', () => {
+      checkboxes.forEach(cb => {
+        cb.checked = false;
+        localStorage.setItem(CL_PREFIX + cb.dataset.key, '0');
+        syncLabel(cb);
+      });
+      updateClCounter();
+    });
+  }
+
+  updateClCounter();
+</script>
+
+</body>
+</html>
